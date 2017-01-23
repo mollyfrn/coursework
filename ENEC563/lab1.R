@@ -259,6 +259,7 @@ summary(oneway)
 threeway <- lm(response~fac1+fac2+family+fac1:fac2+fac1:family+fac2:family+
                  fac1:fac2:family,data=tadpoles)
 
+#allows treatments to be looked at independently of each other 
 
 ###################################################
 ### code chunk number 35: lab1.Rnw:326-328
