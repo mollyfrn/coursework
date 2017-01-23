@@ -250,7 +250,8 @@ contrasts(tadpoles$treatment)
 ###################################################
 oneway <- lm(response~treatment,data=tadpoles)
 summary(oneway)
-#pretty great!!
+#pretty great!! explains a lot, a lot better than a random model 
+#we don't know which particular variable is important or about intrxns
 
 ###################################################
 ### code chunk number 34: lab1.Rnw:319-321
