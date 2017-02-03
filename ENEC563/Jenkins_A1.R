@@ -60,7 +60,7 @@ summary(mod5)
 quinn1$modelpreds = predict(mod3,newdata=quinn1)
 
 ####Problems 3 & 4#### 
-coefs = coef(mod3) 
+coefs = coef(mod3) #coefs of 1.8487 1.9521 and -0.0626
 theme_set(theme_bw()+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 ggplot(quinn1)+geom_boxplot(aes(fill = factor(Season), x=interaction(Season,Density),y=Eggs))+
   scale_fill_manual(values = wes_palette("Darjeeling"), name = "Season")+ 
