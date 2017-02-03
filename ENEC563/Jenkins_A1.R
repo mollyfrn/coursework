@@ -59,10 +59,14 @@ summary(mod5)
 
 quinn1$modelpreds = predict(mod3,newdata=quinn1)
 
-####Problem 3#### 
+####Problems 3 & 4#### 
+coefs = coef(mod3) 
 theme_set(theme_bw()+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
-plot1 = ggplot(quinn1)+geom_boxplot(aes(fill = factor(Season), x=interaction(Season,Density),y=Eggs))+
+ggplot(quinn1)+geom_boxplot(aes(fill = factor(Season), x=interaction(Season,Density),y=Eggs))+
   scale_fill_manual(values = wes_palette("Darjeeling"), name = "Season")+ 
   labs(x="Season x Density",y="Avg Eggs per Limpet")
+  
+#overall # of eggs goes down with density but is also much greater in the summer compared to spring 
 
+#how best to explain this via a fitted line? 
 
