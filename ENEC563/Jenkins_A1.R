@@ -46,8 +46,8 @@ quinn1 = quinn1 %>%
 quinn1$avg_eggden = as.factor(quinn1$avg_eggden)
 
 ####Problem 2####
-mod1 = lm(Eggs~Season+Density+Season:Density, data = quinn1)
-mod2 = lm(Eggs~Season:Density, data = quinn1)
+mod1 = lm(Eggs~Season+Density+Season:Density, data = quinn1) #straight vs curved -> curved better bc was simpler model 
+mod2 = lm(Eggs~Season:Density, data = quinn1) #adding nonlinearity to model doesn't increae overfitting by much 
 mod3 = lm(Eggs~Season+Density, data = quinn1)
 mod4 = lm(Eggs~Season, data = quinn1)
 mod5 = lm(Eggs~Density, data= quinn1)
@@ -58,6 +58,9 @@ summary(mod4) #season seems to have a much stronger effect than density, indepen
 summary(mod5)
 
 quinn1$modelpreds = predict(mod3,newdata=quinn1)
+#use anova to figure out which model is most complete, should have kept 
+
+
 
 ####Problems 3 & 4#### 
 coefs = coef(mod3) #coefs of 1.8487 1.9521 and -0.0626
