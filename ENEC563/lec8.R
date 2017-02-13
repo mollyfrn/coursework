@@ -158,12 +158,12 @@ ci.func2 <- function(rowvals, glm.vmat) {
 ### code chunk number 13: lecture8.Rnw:142-147
 ###################################################
 vmat <- t(contmat)%*%vcov(nitro.lmer)%*%contmat
-#v-cov matrix of sample means
-(vmat-cov(bb$t))/vmat
-median((vmat-cov(bb$t))/vmat)
+#v-cov matrix of sample treatment means
+(vmat-cov(bb$t))/vmat #find var for empirical var-cov cov of bootstrap means
+median((vmat-cov(bb$t))/vmat) 
 max((vmat-cov(bb$t))/vmat)
-
-
+#not even diff by 1; min diff between diff matrices
+#can use p bootstrap output to get ests for model and much better off for it
 ###################################################
 ### code chunk number 14: lecture8.Rnw:152-154
 ###################################################
@@ -186,13 +186,20 @@ sigmate[upper.tri(sigmate)]<-ci.func2(1:16,as.matrix(cov(bb$t)))
 ### code chunk number 16: lecture8.Rnw:171-173
 ###################################################
 c(sigmat[4,],sigmat[,4])
-max(c(sigmat[4,],sigmat[,4]))
+max(c(sigmat[4,],sigmat[,4])) #will use as our CI 
+#comparisons of the 4th 
+#picking the index that we will use as our bound - how do we pick? 
+#have to gen alpha first 
+#alpha is 34% 
 
+#34% of our bootstrap outcomes ideally in tails 
+#17% on either side 
+#obs 170 out of 1000 and on other side will be 831th obs 
 
 ###################################################
 ### code chunk number 17: lecture8.Rnw:177-178
 ###################################################
-(1-max(c(sigmat[4,],sigmat[,4])))/2
+(1-max(c(sigmat[4,],sigmat[,4])))/2 #how much of the tail % do we have
 
 
 ###################################################
@@ -202,6 +209,14 @@ sigvec <- sapply(1:16,function(x) (1-max(sigmat[x,],sigmat[,x]))/2)
 signum <- as.integer(sigvec*bootnum)
 sigvece <- sapply(1:16,function(x) (1-max(sigmate[x,],sigmate[,x]))/2)
 signume <- as.integer(sigvece*bootnum)
+#16 for number of cols 
+# number of tail probability for every treatment mean (probability that it's in the tails)
+#then multiply by the boot number to get it for left side and then subtract from 1000 to get it from the top 
+#ddi twice for the two diff var-covar matrices we made (but typically only need once)
+
+#diff bet bootstrap, diff-CI's
+#boostrap CI's are wider, so more conservative bc overlap more likely (ie signume)
+cbind(signum, signume)
 
 
 ###################################################
@@ -209,7 +224,7 @@ signume <- as.integer(sigvece*bootnum)
 ###################################################
 sumdat <- cbind(sumdat,t(sapply(1:16,function(x) round(sort(bb$t[,x])[c(signum[x],bootnum-signum[x]+1)],3))))
 sumdat <- cbind(sumdat,t(sapply(1:16,function(x) round(sort(bb$t[,x])[c(signume[x],bootnum-signume[x]+1)],3))))
-
+#taking integers and adding actual values + or - 1000
 names(sumdat)[6:11] <- c("lwr95","upr95","lwrdi","uprdi","lwrdie","uprdie")
 
 
@@ -222,7 +237,9 @@ sumdat$func2 <- factor(sumdat$func,labels=c("Inoculated","Mock Inoculated"))
 ggplot(sumdat,aes(x=lh,y=ests,group=factor(n)))+
   geom_point(aes(color=factor(n)),position=position_dodge(width=.2))
 
-
+#two diff ways to get nice labels on facets would be by changing factor labels 
+#creating new factor variable called p2 
+#based on p, but with new labels control and added
 ###################################################
 ### code chunk number 21: lecture8.Rnw:208-211
 ###################################################
