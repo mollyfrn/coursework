@@ -1,7 +1,7 @@
 #Lecture 8 
 
 ### R code from vignette source '/home/james/work/teach/563/lectures/lecture8/lecture8.Rnw'
-
+setwd("C:/git/coursework/ENEC563")
 ###################################################
 ### code chunk number 1: lecture8.Rnw:19-21
 ###################################################
@@ -18,53 +18,92 @@ library(nlme)
 nitromixed.lme <- lme(pN^2 ~ factor(phy) + factor(lh)*factor(n) + factor(func) + factor(p), random=~1|block, data=nitrosub)
 anova(nitromixed.lme)
 summary(nitromixed.lme)
+#look at variance in groups vs between groups; residual is sigma sq'd 
+#Tau is std dev of the random effect; sigma is std dev of epsilon(fixed effect); both sq'd are variances 
 
+#Tau sq'd is the covariance WITHIN groups bc they covary together 
+#sigma sq'd is the variance WITH groups
+#total var is Tau^2 + Sigma^2 
+#correlation coef for covariance is Tau^2 / (sigma^2 + Tau^2)
 
+#varrcorr will do for us
+VarCorr(nitromixed.lme)
+vars = as.numeric(VarCorr(nitromixed.lme)[,1])
+corr = vars[1]/sum(vars) #what is correlation based on observed pattern of covariation within a block? way of defining
 ###################################################
 ### code chunk number 3: lecture8.Rnw:39-43
 ###################################################
 detach(package:nlme)
 library(lme4)
 nitro.lmer <- lmer(pN^2 ~ factor(lh)*factor(n) + factor(func) + factor(p) + (1|block) + (1|phy), data=nitrosub)
+#assuming sample randomly from random phylogenetic groups 
+#want to model crossed effects in lme4 
+#randome effects added to main formula with random block and phylo group 
 anova(nitro.lmer)
-
+#problem? f vals but no p vals 
+#one way to get around p vals would be to do likelihood ratio test in lieu of p vals 
+#could bootstrap but time consuming so not today
 
 ###################################################
 ### code chunk number 4: lecture8.Rnw:48-49
 ###################################################
 summary(nitro.lmer)
+#16 treatment means 
+#use info from parametric boostraps to gen 95% confidence intervals and diff adjusted CI's 
+#compare diffs between two diff means 
 
+#how to gen CI's on effects 
+#effects are just the coefs on our models 
+#confint function pretty effective 
+#lmer -> default confint output is to do profile conf intervals 
+#recall least sqares: surfaces drawn were parabolas, variance estimate was width of parabolas 
+
+#profile conf uses likelihood instead of least squares 
+#moves intercept to left or right, and resets model until the fit is right 
+#computationally intense but awesomely calibrated 
+#default for confint lmer output
 
 ###################################################
 ### code chunk number 5: lecture8.Rnw:59-60
 ###################################################
-confint(nitro.lmer)
+confint(nitro.lmer) #profile more conservatives
 
 
 ###################################################
 ### code chunk number 6: lecture8.Rnw:65-67
 ###################################################
-confint(nitro.lmer,method="Wald")
-confint(nitro.lmer,method="boot")
+confint(nitro.lmer,method="Wald") #assumed quadratic shape, super fast NA's ests for sig for block; less conservative, but always symmetrical and also smaller 
+#not as great for mixed models
+confint(nitro.lmer,method="boot") #param bootstrap refits model data gen'd from model; most conservative, best
+#Confidence intervals for mixed models with crossed effects best practice^^^^
 
+
+#but now want to create CI's for sample means 
+#means rep linear combos of diff param values 
+#the variance of these values does not equal the sum of the variance (not all variance accounted for)
+#var(B0+b1+b2) != var(b0)+var(b1)+var(b2)
 
 ###################################################
 ### code chunk number 7: lecture8.Rnw:76-80
 ###################################################
-sumdat <- expand.grid(lh=levels(nitrosub$lh), n=0:1,func=levels(nitrosub$func),p=0:1)
-cmat2 <- function(lh,n,func,p) c(1, lh=='NP', n==1, func=='mock', p==1, (lh=='NP')*(n==1))
-contmat <- apply(sumdat,1,function(x) cmat2(x[1],x[2],x[3],x[4]))
-sumdat$ests <- t(contmat)%*%fixef(nitro.lmer)
+sumdat <- expand.grid(lh=levels(nitrosub$lh), n=0:1,func=levels(nitrosub$func),p=0:1) #not making preds for random effects yet, just the pop means of the fixed effects
+cmat2 <- function(lh,n,func,p) c(1, lh=='NP', n==1, func=='mock', p==1, (lh=='NP')*(n==1)) #func is inoculation, p is phosphorous
+#gen contrast matrix 
+contmat <- apply(sumdat,1,function(x) cmat2(x[1],x[2],x[3],x[4])) #1 for rows
+sumdat$ests <- t(contmat)%*%fixef(nitro.lmer) #transpose for matrix multiplication
 
-
+cbind(sumdat$ests, predict(nitro.lmer, newdata = sumdat, re.form=NA)) #ignore random effects in prediction = re.form, otherwise will need predictor vars for the random effect 
+#same preds both methods
 ###################################################
 ### code chunk number 8: lecture8.Rnw:84-88
 ###################################################
-bootnum <- 1000
+bootnum <- 1000 #10,000 min generally for this
 
-bb <- bootMer(nitro.lmer,function(x) t(contmat)%*%fixef(x),nsim=bootnum,seed=222)
+bb <- bootMer(nitro.lmer,function(x) t(contmat)%*%fixef(x),nsim=bootnum,seed=222) #first arg is mod you want to parm bootstrap off of; will gen whole new dataset for that mod
+#2nd arg is what you want out of that bootstrap, then the number of nsim so # sims, and seed in function
+#function(x) t(contmat)%*%fixef(x) multiplying contrast matrix by the fixed effects is 2nd arg
 bb2 <- bootMer(nitro.lmer,function(x) predict(x,newdata=sumdat,re.form=NA),nsim=bootnum,seed=222)
-
+#rather than contrast matrix and fixed effects we can use predict; tell it not to use random effects
 
 ###################################################
 ### code chunk number 9: lecture8.Rnw:93-94
@@ -76,18 +115,21 @@ str(bb)
 ### code chunk number 10: lecture8.Rnw:100-102
 ###################################################
 head(bb$t)
-head(bb$t)-head(bb2$t)
+sumdat[1,] #compare to results of first col of bb$t 
+head(bb$t)-head(bb2$t) #same preds using diff functions but same seeds so we know they both work 
 
+#sort from smallest to largest to figure out conf ints for each parm mean based on 1000 bootstraps vals 
+#can use indices of sorted #'s to get conf ints 
 
 ###################################################
 ### code chunk number 11: lecture8.Rnw:107-114
 ###################################################
 apply(bb$t,2,function(x) round(sort(x)[as.integer(c(bootnum*.025,
                                                     bootnum*(1-.025)+1))],3))
-
+#row 1 = 2.5%, row 2 = 07.5%; 95% of our vals are between 10.2 and 15.7
 sumdat <- cbind(sumdat,t(apply(bb$t,2,function(x) round(
   sort(x)[as.integer(c(bootnum*.025,bootnum*(1-.025)+1))],3))))
-
+#add as cols, compare to ests 
 
 
 
@@ -116,7 +158,7 @@ ci.func2 <- function(rowvals, glm.vmat) {
 ### code chunk number 13: lecture8.Rnw:142-147
 ###################################################
 vmat <- t(contmat)%*%vcov(nitro.lmer)%*%contmat
-
+#v-cov matrix of sample means
 (vmat-cov(bb$t))/vmat
 median((vmat-cov(bb$t))/vmat)
 max((vmat-cov(bb$t))/vmat)
