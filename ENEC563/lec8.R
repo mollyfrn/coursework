@@ -240,27 +240,48 @@ ggplot(sumdat,aes(x=lh,y=ests,group=factor(n)))+
 #two diff ways to get nice labels on facets would be by changing factor labels 
 #creating new factor variable called p2 
 #based on p, but with new labels control and added
+#factor variables stored as numbers BUT have labels attached to them conveniently (nice categorical variables still quantitative)
+#do same for inoc vs m-inoc 
+#build up plot from means first 
+#factor n is nitrogen factor grouping variable 
+
+
 ###################################################
 ### code chunk number 21: lecture8.Rnw:208-211
 ###################################################
 intplot <- ggplot(sumdat,aes(x=lh,y=ests,group=factor(n),color=factor(n)))+
   geom_point(,position=position_dodge(width=.2))+
-  facet_grid(func2~p2)+labs(x="Life history",y="Leaf nitrogen")
+  facet_grid(func2~p2)+labs(x="Life history",y="Leaf nitrogen") #func = inoc; p2 is P added
 
-
+#want to add facet grid; two sides to formula, facets based on both horiz and vertical
+#assigning plot a name means you can add things on without having to repaste base ggplot object
 ###################################################
 ### code chunk number 22: lecture8.Rnw:216-217
 ###################################################
 intplot
 
-
+str(intplot) #super complicated!
 ###################################################
 ### code chunk number 23: lecture8.Rnw:224-229
 ###################################################
+#my code 
+intplot + geom_errorbar(aes(ymin = lwr95, ymax = upr95), width = .1, position = position_dodge(width=0.2)) #don't need to add x aes, do need to add y's
+#changes position to actually lay on means; shrinks whiskers 
+intplot + geom_errorbar(aes(ymin = lwr95, ymax = upr95), width = 0.2, position = position_dodge(width=0.2))+ 
+  geom_errorbar(aes(ymin = lwrdie, ymax = uprdie), width = .1, #narrow whiskers
+                position = position_dodge(width=0.2), width = 0.1, size = 2) + 
+  geom_point(shape = "-", size = 8, color = "black", position = position_dodge(width = 0.2))
+
+#die = diff adjusted
+#also want a nicer label 
+
+
+
+#James code
 intplot <- intplot +
   geom_errorbar(aes(ymin=lwr95,ymax=upr95),width=.1,position=position_dodge(width=.2))+
   geom_errorbar(aes(ymin=lwrdie,ymax=uprdie),width=.1,size=2,position=position_dodge(width=.2))+
-  geom_point(shape="-",size=8,color="black",position=position_dodge(width=.2))
+  geom_point(shape="-",size=8,color="black",position=position_dodge(width=.2)) #the means
 intplot
 
 
@@ -268,5 +289,8 @@ intplot
 ### code chunk number 24: lecture8.Rnw:234-236
 ###################################################
 intplot+scale_x_discrete(labels=c("Exotic Annual","Native Perennial"))+
-  scale_color_discrete("Nitrogen Treatment",labels=c("Control","Added"))
-
+  scale_color_discrete("Nitrogen Treatment",labels=c("Control","Added"))+ #change labels to look nicer in legend
+ geom_point(data=nitrosub, aes(y = pN^2), position = position_dodge(width=0.2), shape = 1, alpha = 0.4) 
+  
+  
+  # scale_color_manual(values = wes_palette("Darjeeling"))
