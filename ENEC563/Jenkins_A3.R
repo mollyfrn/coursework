@@ -31,7 +31,7 @@ library(dplyr)
 
 ####Problem 1####
 #1_1)
-mossart = read.csv("Moss ArthropodSR.csv", skip = 4)
+mossart = read.csv("Moss_ArthropodSR.csv", skip = 4)
 
 #1_2)
 mossart = mossart %>%
