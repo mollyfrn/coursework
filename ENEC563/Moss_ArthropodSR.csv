@@ -1,0 +1,31 @@
+"Numbered replicates refer to two 0.25m2 areas, one each is fragmented or control (continuous)",,,
+Area is the area sampled with 0.25m2 areas,,,
+"Gonzalez, A. 2000. Community relaxation in fragmented landscapes: the relation between species richness, area and age. Ecology Letters 3:441-448.",,,
+All samples recorded in month 12 of the experiment,,,
+Replicates,Treatment,Area (cm2),Species Richness
+3,Fragmented,20,8
+4,Fragmented,20,12
+5,Fragmented,20,11
+6,Fragmented,20,9
+7,Fragmented,20,12
+8,Fragmented,20,10
+3,Control,20,14
+4,Control,20,18
+5,Control,20,16
+6,Control,20,15
+7,Control,20,18
+8,Control,20,21
+2,Fragmented,200,23
+3,Fragmented,200,22
+4,Fragmented,200,19
+5,Fragmented,200,17
+6,Fragmented,200,20
+7,Fragmented,200,15
+8,Fragmented,200,14
+2,Control,200,27
+3,Control,200,25
+4,Control,200,23
+5,Control,200,18
+6,Control,200,26
+7,Control,200,26
+8,Control,200,30
