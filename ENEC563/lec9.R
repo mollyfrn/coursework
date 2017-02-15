@@ -177,16 +177,17 @@ ggplot(iporoot3,aes(x=Root,y=Fruit,color=Grazing))+geom_point()+geom_smooth(meth
 #so having a weird 0 intercept in our model means it is a pretty odd model  
 #keep confounding vars in model even if not sig because getting rid of them can throw mod 
 
-
-
+########
+####Inference on interactions (second half)####
 
 
 ###################################################
 ### code chunk number 16: lecture9.Rnw:243-246
 ###################################################
-goby <- read.delim('goby.txt')
+goby <- read.delim('https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/goby.txt')
 goby[1:10,]
 goby$frefuge <- factor(goby$refuge,labels=c("low","medium","high")) 
+#effect of density and refuge on goby survival in reefs 
 
 
 ###################################################
@@ -211,13 +212,23 @@ anova(gobymod)
 ###################################################
 summary(gobymod)
 
-
+#refuge low mod: B0+B1x bc all z1 and z2 vals are 0 
+#refuge med mod: z1 = 1, z2 = 0; mu = B0+B1x+B2z1+B4z1x -> rearr -> intercept B0+B2 + slope (B1+B4)x
+#refuge high mod has all terms 
 ###################################################
 ### code chunk number 20: lecture9.Rnw:296-302
 ###################################################
+#can look at stat sig of intrxn terms -> is slope bet med and low or high and low sig? 
+#look at B4 (intrxn bet den and refuge at med)
+#stat sig at high as well 
+#can't look at diff between med and high but 
+
+#can look at slopes of vars vs slopes of high ref treatment 
+#just changed ordering of factors 
 
 # refit model with 3 as the reference group
 goby$frefugehigh <- factor(goby$frefuge,levels=c("high","medium","low"))
+contrasts(goby$frefugehigh) #compare to original frefuge
 gobymoda <- lm(mortality~density*frefugehigh, data=goby)
 # slope for refuge 2 is different from slope for refuge 1
 summary(gobymoda)
@@ -228,13 +239,26 @@ summary(gobymoda)
 ###################################################
 gobymodb <- lm(mortality~frefuge +frefuge:density -1, data=goby)
 summary(gobymodb)
+#same model but we are removing the intercept 
+#R's response is to have 3 dummy variables for a three level factor 
+#z1= low, z2 = med, z3 = high 
+#B0z1+B1z2+B2z3+B3z1x+B4z2x+B5z3x 
+#mu_l = B0+B3x 
+#mu_m = B1+B4x 
+#mu_h = B2+B5x -> intrcept and slope for each var derived! 
+#but can't actually look at exp effects, but at highest level no effect of den on mort 
+#but at med and low there is changed effect of density on mortality 
+#fully interactive 
+
+
+
 
 
 ###################################################
 ### code chunk number 22: lecture9.Rnw:318-319
 ###################################################
 gobyplot+geom_point()+geom_smooth(method=lm,se=F)
-
+gobyplot+geom_point()+geom_line(aes(y = predict(gobymodb)))
 
 ###################################################
 ### code chunk number 23: lecture9.Rnw:324-328
@@ -244,3 +268,6 @@ gobyplot <- ggplot(goby,aes(x=density,y=mortality,color=frefuge))
 gobyplot+geom_point()+geom_line(aes(y=pred))+scale_color_discrete("Refuge density",labels=c(
   "Low","Medium","High"))
 
+ggplot(gobymod, aes(x = density, y = mortality, color = frefuge)) #finish with .fitted 
+
+#last way to do would have been like with coefs and indexing coef estimates like with last data
