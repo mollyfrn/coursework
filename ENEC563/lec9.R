@@ -147,11 +147,38 @@ fortify(iporoot2)[1:10,] #look at what model output would look like for ggplot
 ###################################################
 ggplot(iporoot2,aes(x=Root,y=Fruit,color=Grazing))+geom_point()+geom_line(aes(y=.fitted))
 #line aesthetic for fitted vals from model 
+#once you control for root size; grazing IS affecting fruit that occurs potentially
 
 ###################################################
 ### code chunk number 15: lecture9.Rnw:200-201
 ###################################################
 ggplot(iporoot3,aes(x=Root,y=Fruit,color=Grazing))+geom_point()+geom_smooth(method=lm,se=F)
+#when you use geom smooth method lm will fit with most complicated factors 
+#will source fully interactive model 
+#very minor diff in slopes where ungrazed has slightly steeper slope but not by much
+
+
+
+#problem with using residuals to get the fit? 
+#we'd just fit relationship bet grazing and root 
+#one reason not to take residuals - any confounding in predictor vars 
+
+#ratio model = workaround 
+#Gammas for parms 
+
+
+#diffs in error according to root size -> heteroskedasticity 
+#Gamma0+Gamma1z+E 
+#Gamma0x+Gamma1xz+Ex <- heterosked = ratio model -> gammas vs betas 
+
+#no intercept in gamma ratio mods, and no additive effect of roots accounted 
+#when root biomass is 0; which does some weird and unhelpful things to our fit 
+#when we fit linear for a dataset; doesn't necessarily fit elsewhere outside of our data 
+#so having a weird 0 intercept in our model means it is a pretty odd model  
+#keep confounding vars in model even if not sig because getting rid of them can throw mod 
+
+
+
 
 
 ###################################################
