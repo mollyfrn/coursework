@@ -175,3 +175,5 @@ ggplot(plants,aes(y=lw.rat,x=fpot))+geom_point(aes(color="Raw data"),size=1)+
     guides(color=guide_legend(override.aes = list(linetype = 0)))
 
 #conditional means closer to pop mean 
+#reducing mag of predictions = shrinkage; conservative approach 
+#extends inference reasonably
