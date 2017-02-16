@@ -94,7 +94,7 @@ ggplot(plants,aes(y=lw.rat,x=fpot,color=type))+geom_point()+
 ###################################################
 ### code chunk number 3: fit a fixed effect model with lm
 ###################################################
-fixedmod <- lm(lw.rat~fpot+type,data=plants)
+fixedmod <- lm(lw.rat~fpot+type,data=plants) #both pot and type as explanatory 
 anova(fixedmod)
 summary(fixedmod)
 
@@ -104,20 +104,20 @@ summary(fixedmod)
 ###################################################
 # treat blocks as random: using nlme package
 library(nlme)
-mod1.lme <- lme(fixed=lw.rat~type, random=~1|pot, data=plants)
-
+mod1.lme <- lme(fixed=lw.rat~type, random=~1|fpot, data=plants)
+#specify fixed and random as sep args; lme4 incorporates into single formula 
 
 ###################################################
 ### code chunk number 5: examine the output of the model
 ###################################################
 anova(mod1.lme)
 
-
+#in this case, 3 individuals at every pot at every level, so well-balanced design 
 ###################################################
 ### code chunk number 6: examine the summary of the mixed model
 ###################################################
 summary(mod1.lme)
-
+#Tau on intercept and sigma on residual -> square both for variance or else use varcorr
 
 ###################################################
 ### code chunk number 7: isolate the random effects
@@ -128,27 +128,27 @@ VarCorr(mod1.lme)
 ###################################################
 ### code chunk number 8: isolate the fixed effects
 ###################################################
-fixef(mod2.lme)
+fixef(mod1.lme)
 
 
 ###################################################
 ### code chunk number 9: coef produces a different output!
 ###################################################
-coef(mod2.lme)
-
-
+coef(mod1.lme)
+#best linear unbiased predictors (blups) 
+#can use gen least squares for each of your pots post-hoc 
 ###################################################
 ### code chunk number 10: estimated random effects
 ###################################################
 ranef(mod1.lme)
-
+#the Uoi's
 
 ###################################################
 ### code chunk number 11: conditional predictions of means (pot level)
 ###################################################
 predict(mod1.lme)[1:10]
-
-
+#visualize how expected vals change for diff predictor vars
+#also called conditional means; conditional on block/random effect (pot) 
 ###################################################
 ### code chunk number 12: population level predictions (without random effects)
 ###################################################
