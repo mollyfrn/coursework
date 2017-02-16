@@ -174,4 +174,4 @@ ggplot(plants,aes(y=lw.rat,x=fpot))+geom_point(aes(color="Raw data"),size=1)+
     scale_color_manual("",values=c("red","blue","black","grey"))+
     guides(color=guide_legend(override.aes = list(linetype = 0)))
 
-
+#conditional means closer to pop mean 
