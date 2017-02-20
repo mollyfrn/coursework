@@ -51,23 +51,42 @@ mossart$rep = as.factor(mossart$rep)
 ####Problem 2:Fixed effect mod####
 mod1 = lm(n~tr*A*rep, data = mossart)
 summary(mod1) #just can't happen! 
+anova(mod1)
 mod2 = lm(n~tr*A+rep, data = mossart)
 summary(mod2)
+anova(mod2)
 mod3 = lm(n~tr+A+rep, data = mossart)
 summary(mod3)
+anova(mod3)
 
 #####Problem 3: Mixed effect mod####
 mod4 = lme(n~tr*A,random=~1|rep,data=mossart,control=list(opt="optim"))
 summary(mod4)
+anova(mod4)
 mod5 = lme(n~tr+A,random=~1|rep,data=mossart,control=list(opt="optim"))
 summary(mod5)
+anova(mod5)
 
-#compare among block to within block
+#compare among block to within block by examining dfs ratio of Tau to sig  
+
 
 
 ####Problem 4####
 #
 
 ####Problem 5####
-ggplot(mossart,aes(x=rep,y=n,color=tr,group=tr))+geom_point()+
-  geom_path()+facet_grid(.~A)
+mean.dat <- data.frame(fix.ests=predict(fixedmod), mix.ests=fitted(mixed.lmer1)) #make df for plotting this, gen predictions based on plot and plant type
+new.dat3 <- cbind(plants, mean.dat) #just slap onto original df so real data there too 
+as.numeric(new.dat3$type)
+new.dat3$pop.mean <- fixef(mixed.lmer1)[1]+fixef(mixed.lmer1)[2]*(as.numeric(new.dat3$type)-1) #subtracting 1 to get 0 and 1 binary (vs 1 & 2's)
+
+
+require(ggplot2)
+theme_set(theme_bw())
+
+ggplot(new.dat3,aes(x=lw.rat,y=fpot))+geom_point(aes(color="Raw data"),size=1)+
+  geom_point(aes(x=mix.ests,color="Conditional means"),shape="|",size=4)+
+  geom_point(aes(x=fix.ests,color="Fixed estimates"),shape="|",size=4)+
+  geom_line(aes(y=as.numeric(fpot),x=pop.mean,color="Population Mean"),
+            linetype=2)+facet_wrap(~type,scales="free_x")+
+  labs(x="Length:Width",y="Pot",color="")
