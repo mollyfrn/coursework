@@ -37,5 +37,37 @@ mossart = read.csv("Moss_ArthropodSR.csv", skip = 4)
 mossart = mossart %>%
   rename("rep"= Replicates, "tr" = Treatment, "A" = Area..cm2., "n" = Species.Richness)
 
+#1_3 
+table(mossart$rep, mossart$tr, mossart$A)
+#almost perfectly balanced save for the first block in the 20 Area patch
 
 
+#1_4
+mossart$tr = as.factor(mossart$tr)
+mossart$A = as.factor(mossart$A)
+mossart$rep = as.factor(mossart$rep)
+
+
+####Problem 2:Fixed effect mod####
+mod1 = lm(n~tr*A*rep, data = mossart)
+summary(mod1) #just can't happen! 
+mod2 = lm(n~tr*A+rep, data = mossart)
+summary(mod2)
+mod3 = lm(n~tr+A+rep, data = mossart)
+summary(mod3)
+
+#####Problem 3: Mixed effect mod####
+mod4 = lme(n~tr*A,random=~1|rep,data=mossart,control=list(opt="optim"))
+summary(mod4)
+mod5 = lme(n~tr+A,random=~1|rep,data=mossart,control=list(opt="optim"))
+summary(mod5)
+
+#compare among block to within block
+
+
+####Problem 4####
+#
+
+####Problem 5####
+ggplot(mossart,aes(x=rep,y=n,color=tr,group=tr))+geom_point()+
+  geom_path()+facet_grid(.~A)
