@@ -67,11 +67,26 @@ mod5 = lme(n~tr+A,random=~1|rep,data=mossart,control=list(opt="optim"))
 summary(mod5) #Tau = 0.04766504, sigma = 2.942209
 anova(mod5)
 
-#compare among block to within block by examining dfs & ratio of Tau to sig  
-#is there an interaction between treatment and area? looks like the interactive models are marginally better than the additive mods in both cases, but not by much at all 
-#compare mod2 and mod4? fixed vs random/mixed 
+VarCorr(mod4)
+vars = as.numeric(VarCorr(mod4)[,1])
+corr = vars[1]/sum(vars)
+Tau = vars[1]
+Sig = vars[2]
 
 
+mean.dat <- data.frame(fix.ests=predict(mod2), mix.ests=predict(mod4)) 
+moss2 <- cbind(mossart, mean.dat) 
+moss2$mix.ests = as.numeric(moss2$mix.ests)
+
+moss3 = moss2 %>%
+  group_by(tr, A) %>% 
+  mutate(pop_mean = mean(n)) %>%
+  select(everything())
+
+
+
+#keeps saying pop means the same for both treatments + areas
+  
 #in summary we can see our est for our intercept, the effect, the SE estimates, and p values 
 #we can also see StdDev and Intercept = Tau; Residual = sigma 
 #if squared would get sigma and tau squared
@@ -85,22 +100,26 @@ anova(mod5)
 #can partition that variation and error into fixed (mean of 0, var of sigma) and random (mean of 0 and var of Tau)
 
 
-mean.dat <- data.frame(fix.ests=predict(mod2), mix.ests=fitted(mod4)) #make df for plotting this, gen predictions based on plot and plant type
-moss2 <- cbind(mossart, mean.dat) #just slap onto original df so real data there too 
-
-as.numeric(moss2$rep)
-moss2$pop.mean <- fixef(mod4)[1]+fixef(mod4)[2]/(as.numeric(moss2$rep)-1) #fix
-
 ####Problem 4####
-#
+##compare among block to within block by examining dfs & ratio of Tau to sig  
+#is there an interaction between treatment and area? looks like the interactive models are marginally better than the additive mods in both cases, but not by much at all 
+#compare mod2 and mod4? fixed vs random/mixed 
+#rep very clearly explains a substantial proportion of the variation in the data
 
 ####Problem 5####
 library(ggplot2)
 theme_set(theme_bw())
 
-ggplot(moss2,aes(x=tr,y=n))+geom_point(aes(color="Raw data"),size=1)+
-  geom_point(aes(x=mix.ests,color="Conditional means"),shape="|",size=4)+
-  geom_point(aes(x=fix.ests,color="Fixed estimates"),shape="|",size=4)+
-  geom_line(aes(y=as.numeric(rep),x=pop.mean,color="Population Mean"),
-            linetype=2)+facet_wrap(~A,scales="free_x")+
-  labs(x="tr",y="richness",color="")
+ggplot(moss3,aes(x=tr,y=n))+geom_point(aes(color="Raw data"),size=1)+
+    labs(x="Treatment",y="richness",color="")+facet_wrap(~A)+
+  geom_point(aes(y=mix.ests,color="Conditional means"),shape="|", size = 5)+
+  geom_point(aes(y=fix.ests,color="Fixed estimates"), size = 1) + 
+  geom_point(data=moss3,aes(y=pop_mean, color = "Population mean"))+
+  scale_color_manual( values = c("Raw data" = "grey","Conditional means" = "firebrick",
+                                 "Fixed estimates" = "turquoise", "Population mean" = "olivedrab"))
+
+
+# It should show the average species richness of plots as predicted by your model for those treatments that had a significant effect on richness.
+# It should clearly demonstrate how the individual treatment factors (not block) operate separately and in concert.
+# It should show the actual data points
+
