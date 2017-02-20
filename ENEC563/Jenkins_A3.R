@@ -27,7 +27,7 @@
 
 #setwd("C:/git/coursework/ENEC563")
 library(dplyr)
-
+library(nlme)
 
 ####Problem 1####
 #1_1)
@@ -50,43 +50,57 @@ mossart$rep = as.factor(mossart$rep)
 
 ####Problem 2:Fixed effect mod####
 mod1 = lm(n~tr*A*rep, data = mossart)
-summary(mod1) #just can't happen! 
+summary(mod1) #just can't happen! 0 vals for the residuals! 
 anova(mod1)
 mod2 = lm(n~tr*A+rep, data = mossart)
-summary(mod2)
+summary(mod2) #explains ~83% of the variation, 73% adjusted
 anova(mod2)
 mod3 = lm(n~tr+A+rep, data = mossart)
-summary(mod3)
+summary(mod3) #explains 83% var again, 75% adjusted
 anova(mod3)
 
 #####Problem 3: Mixed effect mod####
 mod4 = lme(n~tr*A,random=~1|rep,data=mossart,control=list(opt="optim"))
-summary(mod4)
+summary(mod4) #Tau = 0.04608588, sigma = 3.007672
 anova(mod4)
 mod5 = lme(n~tr+A,random=~1|rep,data=mossart,control=list(opt="optim"))
-summary(mod5)
+summary(mod5) #Tau = 0.04766504, sigma = 2.942209
 anova(mod5)
 
-#compare among block to within block by examining dfs ratio of Tau to sig  
+#compare among block to within block by examining dfs & ratio of Tau to sig  
+#is there an interaction between treatment and area? looks like the interactive models are marginally better than the additive mods in both cases, but not by much at all 
+#compare mod2 and mod4? fixed vs random/mixed 
 
 
+#in summary we can see our est for our intercept, the effect, the SE estimates, and p values 
+#we can also see StdDev and Intercept = Tau; Residual = sigma 
+#if squared would get sigma and tau squared
+#if intercept higher than residual then indicative original model would be a source of huge error
+
+#random = U_0i -> random effect of pot -> is a normal with mean 0 and variance Tau^2 
+#within each pot there's a random mean, and we don't know what that is 
+
+#there's var in each plant in each pot, and each pot is also going to have random var 
+
+#can partition that variation and error into fixed (mean of 0, var of sigma) and random (mean of 0 and var of Tau)
+
+
+mean.dat <- data.frame(fix.ests=predict(mod2), mix.ests=fitted(mod4)) #make df for plotting this, gen predictions based on plot and plant type
+moss2 <- cbind(mossart, mean.dat) #just slap onto original df so real data there too 
+
+as.numeric(moss2$rep)
+moss2$pop.mean <- fixef(mod4)[1]+fixef(mod4)[2]/(as.numeric(moss2$rep)-1) #fix
 
 ####Problem 4####
 #
 
 ####Problem 5####
-mean.dat <- data.frame(fix.ests=predict(fixedmod), mix.ests=fitted(mixed.lmer1)) #make df for plotting this, gen predictions based on plot and plant type
-new.dat3 <- cbind(plants, mean.dat) #just slap onto original df so real data there too 
-as.numeric(new.dat3$type)
-new.dat3$pop.mean <- fixef(mixed.lmer1)[1]+fixef(mixed.lmer1)[2]*(as.numeric(new.dat3$type)-1) #subtracting 1 to get 0 and 1 binary (vs 1 & 2's)
-
-
-require(ggplot2)
+library(ggplot2)
 theme_set(theme_bw())
 
-ggplot(new.dat3,aes(x=lw.rat,y=fpot))+geom_point(aes(color="Raw data"),size=1)+
+ggplot(moss2,aes(x=tr,y=n))+geom_point(aes(color="Raw data"),size=1)+
   geom_point(aes(x=mix.ests,color="Conditional means"),shape="|",size=4)+
   geom_point(aes(x=fix.ests,color="Fixed estimates"),shape="|",size=4)+
-  geom_line(aes(y=as.numeric(fpot),x=pop.mean,color="Population Mean"),
-            linetype=2)+facet_wrap(~type,scales="free_x")+
-  labs(x="Length:Width",y="Pot",color="")
+  geom_line(aes(y=as.numeric(rep),x=pop.mean,color="Population Mean"),
+            linetype=2)+facet_wrap(~A,scales="free_x")+
+  labs(x="tr",y="richness",color="")
