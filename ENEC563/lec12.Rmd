@@ -168,7 +168,10 @@ Likelihood for this is:
 L(Theta; Yi) = PI f(Yi; Theta) = f(Yi; B0, B1, Sig^2) = 
 (1/sigma*sqrt(2PI))*e^-((Yi-(B0+B1Xi))^2/Sigma^2) = 
 log((1/sigma*sqrt(2PI))*e^-((Yi-(B0+B1Xi))^2/Sigma^2)) = 
+-log(sigma*sqrt(2PI)) - [(sum(Yi - (B0+B1Yi))^2)/Sigma^2]
 
+The best parms for B0 and B1 are when diffs between predicted Yi and Yi are minimized 
+Can use max likelihood theory in tandem with least squares!
 
 
 
