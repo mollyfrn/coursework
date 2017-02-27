@@ -129,6 +129,23 @@ Let's talk about how to do this using calculus (except let's not)
 
 One parameter model 
 logL = ??? 
+SEE PNG IMAGE 
+
+Gradient technique super problematic with bimodal distributions (multiple local maxima) 
+huge problem with non-linear mods where noise struct or mean struct complicated 
+
+also get flat zones in multidimensional problems that you can get stuck on 
+
+so max log likelihood isn't perfect for everything, but it's pretty great otherwise 
+
+Tolerance: basically how far you move and whether you say "I'm done/stopping here" or not 
+-worry about later 
+
+Properties of MLE's 
+Theta_mle is consistent 
+  -abs(Theta^ - Theta) goes to 0 as sample size (m) goes to infinity 
+  -asymptotically unbiased 
+    -
 
 
 
