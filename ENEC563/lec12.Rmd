@@ -1,0 +1,140 @@
+---
+title: "Least Squares and Likelihood"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+Least squares estimation 
+Likelihood 
+and Bayesian stats
+
+Least squares:
+Theta = B0, B1, etc (list of parm coefs)
+Yi - y^i
+sum(yi - y^i)^2 
+
+minimize SSE over Theta 
+find best line that minimizes SSE
+finding best mean values using the best measures of this least squares difference 
+
+great method for finding a good fit to data 
+
+but when we want to do inference on it, comparing to null model? 
+We have to assume errors are normally distributed with variation about a mean of 0 of sigma^2 
+
+So why do we use least sqs if limiting? 
+1) simple and intutive metric of fit 
+  -can use for any type of modeling w/out inference
+2) historically easy to find estimates analytically and computationally 
+  -solve series of equations
+3) Inference on this is easy to find analytically and computationally 
+Also normal distrbutive 
+Most stats up to 1970's, could do irl or with computers 
+
+In wake of Least sqrs:
+Likelihood based school (Frequentist, typically)
+Bayesian school 
+
+BOTH start with using a probabilistic model to fit data 
+
+from model est parms 
+using principle of likelihood can then do inference on parms
+
+Example: 
+sampling from a population with a discrete value random variable 
+  -count data of some sort 
+  -individuals
+  -we want the number of parasitic infections per individual 
+    -could be 0, could be 20, but no continuous vars 
+    
+sample m individuals 
+X1, X2, X3....Xm 
+
+Let's say Xi ~ is our random variable which is both identical and independent 
+#identical dist and independent 
+
+what's the probability that the value of X1 is equal to what we see in X1, probability of X2 being = to X2, etc.
+
+=P(X1=X1&X2=X2&.....&Xm=Xm)
+P(A&B) = P(A)*P(B) 
+
+Capital PI as an operator means the product 
+P(Xi = xi) -> product of those observations if all correct 
+
+f(n, Theta1, Theta2) 
+probability of getting n numbers is based on those two Theta parms 
+
+Product is going to equal probability dist of Xi given those two params 
+
+we have parms, what is probability of getting these observations? 
+
+Reverse: given the DATA/obs, what are the probabilities of getting our params Theta1 and Theta2? 
+
+Xi is fixed, but what is the probability density function -> so that is the likelihood 
+
+Likelihood is the probability of getting parms given data 
+when we MAXIMIZE this probability of getting those parms, we have our "best" estimate 
+That's where maximum log likelihood name comes from 
+continuous vars - probability densities and not discrete probabilities, but still works 
+
+the LOG part comes in: 
+-likelihood usually called big L 
+-set of Thetas collapsed into single vector of Theta 
+L(Theta, X1, X2, ....Xm) = PI f(Xi; Theta)
+trying to max a product is computationally ugly 
+
+so we usually take the log of both sides 
+
+the log of a product is equal to the sum of the logs 
+log(L(Theta; X1, X2,...) = sum(log(f(Xi; Theta)))
+
+but maximizing some value, and want to maximize in log
+
+still works, not quite proportional (but close!) becuase in transformation 
+biggest val on y axis still biggest val on x axis even if transformed by log function 
+
+relationship not proportional but referred to as monotonic 
+can take monotonic transformation of anything and maximize it 
+
+leads to Maximum Likelihood Principle 
+-best estimates of model parms come from maximizing the likelihood over values of parameters
+-makes sense as a precept 
+-"best" only in certain ways and criteria 
+
+we use logs for 4 reasons: 
+1) monotonic - so max of L/Theta is = to max of log(L)/Theta
+2) sums are easier to do analytically as a result 
+3) inferential theory is based on log likelihood 
+4) computationally easier when summing logs of f(Xi; Theta) bc small probabilities multiplied by each other get really close to 0; log of them gives you larger negative numbers which are easier to work with 
+
+
+HOW TO: 
+1) Use calculus -> only useful for very simple examples (generalized linear mods sometimes; diff than general linear model tho!)
+2) Numerically 
+  i) Brute force 
+  ii) Optimization algorithm 
+  
+Let's talk about how to do this using calculus (except let's not) 
+
+One parameter model 
+logL = ??? 
+
+
+
+
+
+
+
+
+
