@@ -142,11 +142,32 @@ Tolerance: basically how far you move and whether you say "I'm done/stopping her
 -worry about later 
 
 Properties of MLE's 
-Theta_mle is consistent 
+1) Theta_mle is consistent 
   -abs(Theta^ - Theta) goes to 0 as sample size (m) goes to infinity 
-  -asymptotically unbiased 
-    -
+2) asymptotically unbiased
+3) Theta_mle asymptotoically efficient among unbiased estimators
+  -variance in estimated, how much variation we would have if repeated with new data 
+    -this is smallest variance with most unbiased estimators
+4) Variance is KNOWN asymptotically 
+5) Theta_mle has asymptotically normal dist, with the Information being in the variance cov matrix
+  
+Caveats: 
+1) can be biased (variance)
+2) not necessarily unique 
+3) there are odd cases where they may not exist (uh...)
+4) they're hard to find (may not exist, hard to find...Chupacabra/Unicorn/Nessie/Leprechaun)
+5) multiple local maxima (if dist weird or binomial or lots of noise)
 
+If we want to use Max LL need a full probabilistic model 
+
+Yi = B0+B1X+Ei 
+
+Yi is normal with mean B0+B1Xi, with variance sigma^2 
+
+Likelihood for this is: 
+L(Theta; Yi) = PI f(Yi; Theta) = f(Yi; B0, B1, Sig^2) = 
+(1/sigma*sqrt(2PI))*e^-((Yi-(B0+B1Xi))^2/Sigma^2) = 
+log((1/sigma*sqrt(2PI))*e^-((Yi-(B0+B1Xi))^2/Sigma^2)) = 
 
 
 
