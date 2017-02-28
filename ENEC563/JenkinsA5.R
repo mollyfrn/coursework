@@ -19,7 +19,11 @@
 # Give both a qualitative and a quantitative answer.
 
 
-#setwd(C:/git/coursework/ENEC563/)
+#setwd("C:/git/coursework/ENEC563/")
+
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
 
 fisheggs = read.table('https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/fisheggs.txt', header = TRUE)
 
@@ -29,20 +33,25 @@ table(fisheggs$species, fisheggs$depth, fisheggs$season)
 #nicely balanced
 
 ####Problem 2####
+sink("A5_table1.txt")
 mod1 = aov(sodium~species*depth*season + Error(pond/species/depth/season), data = fisheggs) #structured error term
 summary(mod1)
+sink()
 
 ####Problem 3####
-library(ggplot2)
-intplot <- ggplot(fisheggs,aes(y=sodium))
-intplot+stat_summary(aes(x=species,linetype=depth,group=depth),geom="line"
+intplot = ggplot(fisheggs,aes(y=sodium))
+plot1 = intplot+stat_summary(aes(x=species,linetype=depth,group=depth),geom="line"
                      ,fun.y="mean")+labs(title=expression("species"%*%"depth interaction"))
-intplot+stat_summary(aes(x=species,linetype=season,group=season),geom="line"
+plot2 = intplot+stat_summary(aes(x=species,linetype=season,group=season),geom="line"
                      ,fun.y="mean")+labs(title=expression("species"%*%"season interaction"))
-intplot+stat_summary(aes(x=depth,linetype=season,group=season),geom="line"
+plot3 = intplot+stat_summary(aes(x=depth,linetype=season,group=season),geom="line"
                      ,fun.y="mean")+labs(title=expression("depth"%*%"season interaction"))
 
-####Problem 4####
+triplot = grid.arrange(plot1, plot2, plot3, nrow=3)
 
+####Problem 4####
+# Refit your final model from question 2 but this time treat season as a continuous variable with equally spaced values. 
+# Superimpose your final continuous season model on the graph of Question 3.
+mod2 = aov(sodium~species*depth*season + Error(pond/species/depth/season), data = fisheggs)
 
 ####Problem 5####
