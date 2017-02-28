@@ -33,6 +33,7 @@
 #setwd('C:/git/coursework/ENEC563/')
 library(nlme)
 library(dplyr)
+library(ggplot2)
 
 
 ####Problem 1####
@@ -60,7 +61,11 @@ body3$logpre = log(body3$meanpre)
 body3$logpos = log(body3$meanpos)
 
 mod1 = lm(logpos~logpre*Family, data = body3) #Bovidae is intercept; separate slopes model
-summary(mod1)
+
+sink("A4_table1.txt")
+summary(lm(logpos~logpre*Family, data = body3))
+sink()
+
 anova(mod1)
 coef(mod1)
 body3$preds = predict(mod1)
@@ -80,7 +85,15 @@ anova(mod2)
 #additive model with Family and Family:log(pre diaphragmatic length) and removing the intercept from the model
 
 mod3 = lm(logpos~Family+Family:logpre -1, data=body3)
+sink("A4_table2.txt")
 summary(mod3)
+sink()
+
+sink("A4_confints.txt")
+confint(mod3)
+sink()
+#Otariidae and Phocidae both cross into negatives on the left tail; different 
+
+####Problem 6####
 plot+geom_point()+geom_line(aes(y = predict(mod3)))
-#slope for Otariidae definitely looks different but could also be because of single data point 
-#check and compare output to lec9, rerun
+#slope for Otariidae definitely looks really noticably different 
