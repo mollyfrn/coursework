@@ -29,14 +29,20 @@ table(fisheggs$species, fisheggs$depth, fisheggs$season)
 #nicely balanced
 
 ####Problem 2####
-mod1 = aov(sodium~species*depth*season + Error(pond/species/depth/season), data = fisheggs)
+mod1 = aov(sodium~species*depth*season + Error(pond/species/depth/season), data = fisheggs) #structured error term
+summary(mod1)
+
+####Problem 3####
+library(ggplot2)
+intplot <- ggplot(fisheggs,aes(y=sodium))
+intplot+stat_summary(aes(x=species,linetype=depth,group=depth),geom="line"
+                     ,fun.y="mean")+labs(title=expression("species"%*%"depth interaction"))
+intplot+stat_summary(aes(x=species,linetype=season,group=season),geom="line"
+                     ,fun.y="mean")+labs(title=expression("species"%*%"season interaction"))
+intplot+stat_summary(aes(x=depth,linetype=season,group=season),geom="line"
+                     ,fun.y="mean")+labs(title=expression("depth"%*%"season interaction"))
+
+####Problem 4####
 
 
-#Reference code from lec10:
-#aov uses the classical approach to fitting split plot designs
-# requires specifying an error term that shows the hierarchical structure
-spmodaov <- aov(yield~irrigation*density*fertilizer + Error(block/irrigation/density/fertilizer), data=sp)
-summary(spmodaov)
-#the lowest level is not needed
-spmodaov <- aov(yield~irrigation*density*fertilizer + Error(block/irrigation/density), data=sp)
-summary(spmodaov)
+####Problem 5####
