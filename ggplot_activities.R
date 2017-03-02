@@ -5,6 +5,7 @@
 
 library(ggplot2)
 library(directlabels)
+library(broom)
 
 
 df <- data.frame(
@@ -222,3 +223,114 @@ ggplot(mpg, aes(class, fill = drv)) +
 # 7. "Dissecting a Trailer: The Parts of the Film That Make the Cut", by
 # Shan Carter, Amanda Cox, and Mike Bostock at the New York Times:
 #   http://nyti.ms/1KTJQOE
+
+
+####Fletcher's code for 03/02####
+library(ggplot2)
+mpg
+
+# 5.3.1 Exercises
+library(dplyr) 
+class <- mpg %>% 
+  group_by(class) %>%
+  summarise(n = n(), hwy = mean(hwy))
+
+class
+
+ggplot(mpg, aes(class, hwy)) + 
+  geom_point()
+
+ggplot(mapping = aes(class, hwy)) +
+  geom_point(data = mpg, position = position_jitter(width = 0.1, height = 0.1)) + 
+  geom_point(data = class, color = "red", size = 5) + 
+  geom_text(data = class, aes(y = 10, label = paste("n =", n)))
+
+# 5.4.3 exercises
+# 1. simplify the following plot specifications
+ggplot(mpg) + geom_point(aes(mpg$displ, mpg$hwy))
+# simplification
+ggplot(mpg, aes(displ, hwy)) + geom_point()
+
+ggplot() +
+  geom_point(mapping = aes(y = hwy, x = cty), data = mpg) + geom_smooth(data = mpg, mapping = aes(cty, hwy))
+# simplification
+ggplot(mpg, aes(cty,hwy)) + geom_point() + geom_smooth()
+
+ggplot(diamonds, aes(carat, price)) + geom_point(aes(log(brainwt), log(bodywt)), data = msleep)
+# simplification
+# this one doesn't make sense to me
+
+
+# 2. what does the following code do? 
+# Does it work? Does it make sense? Why/why not?
+ggplot(mpg) + geom_point(aes(class, cty)) + geom_boxplot(aes(trans, hwy))
+
+
+# 5.6.2 Exercise
+# use the appropriate geoms to mimic the geom_smooth() display
+
+mod <- loess(hwy ~ displ, data = mpg)
+smoothed <- data.frame(displ = seq(1.6, 7, length = 50)) 
+pred <- predict(mod, newdata = smoothed, se = TRUE) 
+smoothed$hwy <- pred$fit
+smoothed$hwy_lwr <- pred$fit - 1.96 * pred$se.fit 
+smoothed$hwy_upr <- pred$fit + 1.96 * pred$se.fit
+
+# my figure
+ggplot(smoothed, aes(displ, hwy)) + 
+  geom_ribbon(aes(ymin = hwy_lwr, ymax = hwy_upr), fill = "grey50") + 
+  geom_line(color = "blue")
+
+# use geom_count() to create a plot that shows 
+# the proportion of cars that have each combination 
+# of drv and trans
+
+?stat_sum()
+ggplot(mpg, aes(drv, trans)) + 
+  geom_count(aes(size = ..prop.., group = 1))
+
+
+
+###Ex. from ch 5 
+library(dplyr) 
+library(ggplot2)
+mpg = mpg
+class = mpg %>% 
+  group_by(class) %>% 
+  summarise(n = n(), 
+            hwy = mean(hwy)) 
+mpg$fclass = as.factor(mpg$class)
+ggplot(data = mpg, mapping = aes(class, mean(hwy))) +
+  geom_point(color = "red", size = 5) + 
+  geom_text(data = mpg, aes(y = 10, label = paste("n =", tally(fclass))))
+
+
+
+ggplot(mpg, aes(displ, hwy)) +geom_point()
+  
+ggplot(mpg, aes(hwy, cty)) + geom_point() +
+  geom_smooth()
+
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(aes(log(brainwt), log(bodywt)), data = msleep)
+
+
+ggplot(mpg) + geom_boxplot(aes(trans, hwy)) 
+ggplot(mpg) + geom_boxplot(aes(class, hwy)) 
+
+
+mod <- loess(hwy ~ displ, data = mpg)
+smoothed <- data.frame(displ = seq(1.6, 7, length = 50))
+pred <- predict(mod, newdata = smoothed, se = TRUE)
+smoothed$hwy <- pred$fit
+smoothed$hwy_lwr <- pred$fit - 1.96 * pred$se.fit
+smoothed$hwy_upr <- pred$fit + 1.96 * pred$se.fit
+
+ggplot(smoothed, aes(displ, hwy)) +geom_ribbon(aes(ymin=hwy_lwr, ymax=hwy_upr, alpha = 0.4))+ geom_line(color = "navy")
+#mimicking geom_smooth()
+
+
+#from ggplot mimick graph from beginning, workaround:
+geom_text(stat=count, y = min(mpg$hwy)) #want min of this vector
+
+
