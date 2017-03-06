@@ -1,3 +1,6 @@
+library(jpeg)
+library(httr)
+
 #' Get a random cat image
 #' 
 #' Grabs a random cat image from \url{http://theoldreader.com/kittens} and returns it as

@@ -10,8 +10,6 @@
 
 ####1: Setup####
 library(ggplot2)
-library(jpeg)
-library(httr)
 library(viridis)
 
 # if only the dataset is known:
