@@ -10,7 +10,10 @@
 
 ####1: Setup####
 library(ggplot2)
-library(viridis)
+library(ggfortify)
+library(reshape2)
+library(zoo) #for time series example data
+library(gridExtra) 
 
 # if only the dataset is known:
 ggplot(diamonds)  
@@ -64,11 +67,13 @@ ggplot(diamonds) + geom_point(aes(x=carat, y=price, color=cut)) +
 
 
 ggplot(diamonds) + geom_point(aes(x=carat, y=price, color=cut)) +
-  geom_smooth(aes(x=carat, y=price)) # Remove color from geom_smooth
+  geom_smooth(aes(x=carat, y=price)) 
+# Remove color from geom_smooth
 
 
 ggplot(diamonds, aes(x=carat, y=price)) + 
-  geom_point(aes(color=cut)) + geom_smooth()  # same as above but simpler
+  geom_point(aes(color=cut)) + geom_smooth()  
+# same as above but simpler
 
 
 ####Exercise 2.2####
@@ -85,7 +90,7 @@ ggplot(diamonds, aes(x=carat, y=price, color=cut, shape=color)) + geom_point()
 
 
 ####3: Labels#### 
-####Exercise 3.1: Add appropriate labels to the graph####
+####Exercise 3.1: Add appropriate labels to the graph below####
 gg <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() +
   labs(title="", x="", y="")  # add axis lables and plot title.
 print(gg)
@@ -98,19 +103,23 @@ gg1 <- gg + theme(plot.title=element_text(size=30, face="bold"),
                   axis.title.x=element_text(size=25),
                   axis.title.y=element_text(size=25)) + 
   scale_color_discrete(name="Cut of diamonds")  # add title and axis text, change legend title.
-print(gg1)  # print the plot
+print(gg1)  # print the plot 
+#made axes text HUGE -> easier for vision-challenged to see in presentations
+
 
 #themes can be really instrumental in creating beautiful graphs;  
 #there are a number of color scales you can create from scratch or download 
-#including color palettes that are disabled-friendly 
+#including color palettes that are disabled-and-greyscale friendly, like viridis: 
+library(viridis)
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() +
+  labs(title="Diamonds: Carat vs. Price", x="Carat", y="Price") + scale_color_viridis(discrete=TRUE)
 
-gg2 <- ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() +
-  labs(title="", x="", y="") + scale_color_viridis(discrete=TRUE)
-print(gg2)
 
 #...or based on your favorite film director 
+library(wesanderson)
 ggplot(diamonds)+geom_boxplot(aes(fill = factor(cut), x=color,y=price))+
-  scale_fill_manual(values = wes_palette("Darjeeling"))+ylim(0, 7500)
+  scale_fill_manual(values = wes_palette("Darjeeling"))+ylim(0, 7500) + 
+  labs(title="Diamonds: Color vs. Price", x="Color", y="Price")
 
 
 #there is such a thing as prudence and simplicity (recall data-ink conversation from last week)
@@ -130,9 +139,10 @@ gg1 + facet_grid(color ~ cut)   # In a grid
 
 
 ####6: Time Series & Multiple Plots on Same Graph####
-library(ggfortify)
-autoplot(AirPassengers) + labs(title="AirPassengers")  # where AirPassengers is a 'ts' object
+autoplot(AirPassengers) + labs(title="AirPassengers")  
+# where AirPassengers is a 'ts' or time series object
 
+#Multiple plots
 # Approach 1:
 data(economics, package="ggplot2")  # init data
 economics <- data.frame(economics)  # convert to dataframe
@@ -141,13 +151,12 @@ ggplot(economics) + geom_line(aes(x=date, y=pce, color="pcs")) +
   labs(title="Economics") # plot multiple time series using 'geom_line's
 
 
-# Approach 2:
-library(reshape2)
+# Approach 2, using reshape2:
 df <- melt(economics[, c("date", "pce", "unemploy")], id="date")
 ggplot(df) + geom_line(aes(x=date, y=value, color=variable)) + 
   labs(title="Economics")# plot multiple time series by melting
 
-
+#can also use facet_wrap
 df <- melt(economics[, c("date", "pce", "unemploy", "psavert")], id="date")
 ggplot(df) + geom_line(aes(x=date, y=value, color=variable))  +
   facet_wrap( ~ variable, scales="free")
@@ -241,18 +250,7 @@ ggsave("myggplot.png", plot=plot1)  # save a stored ggplot
 # ggplot will automatically store each new plot created within that empty file when it hits the loop end
 
 
-#Loop examples: 
- pdf("testplots.pdf", onefile = TRUE)
-#tiff("/ggplot_test%01d.tif")
-
-cuts = as.integer(unique(diamonds$cut))
-for(c in cuts){
-  testplots = ggplot(diamonds, aes(x=carat, y=price, color = cut))+geom_point()+
-    labs(title = paste("testplot_", c, sep = ""))
-}
-
-
-
-
 ####Exercise 10.1####
 #Save p4 from section 9 as a png file to your desktop 
+
+
