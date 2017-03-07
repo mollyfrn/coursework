@@ -6,7 +6,7 @@
 #         & http://ms.mcmaster.ca/~bolker/misc/ggplot2-book.pdf
 
 
-#setwd("C:/Users/mollyfrn/Desktop")
+#setwd("C:/Users/msole/Desktop")
 
 ####1: Setup####
 library(ggplot2)
