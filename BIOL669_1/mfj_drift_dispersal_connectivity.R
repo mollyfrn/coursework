@@ -77,7 +77,7 @@ for (i in 1:(J*num.patch*(num.years-1))) {
   
 
   
-  ## record data  
+  ## record data  -> FIX OUTPUT
   if (i %% (J*num.patch) == 0) {
     freq.mat[year,] <- colSums(COM==n)/J
     year <- year + 1 
