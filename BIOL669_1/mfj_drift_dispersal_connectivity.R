@@ -1,12 +1,13 @@
 
 speciesnum = c(1:5)
-
+freq.mat = list()
+  
 for(n in speciesnum){ #outside of workings bc both dealing with same n's
 
 ## specify parameters, initial conditions, and output matrix
 num.years <- 50 
 num.patch <- 10
-freq.mat.n <- matrix(nrow = num.years, ncol = num.patch) #each row is a year 
+temp.mat.n <- matrix(nrow = num.years, ncol = num.patch) #each row is a year 
 #collapse into dataframe/single 50x10 matrix since redundant
 
 
@@ -28,7 +29,7 @@ m <- 0.2
 
 #collapse to be nested 
 ## record data (frequency of species X) for year 1
-freq.mat.n[1,] <- init.n/J 
+temp.mat.n[1,] <- init.n/J 
 #deleted extraneous matrices bc all the same 1st column
 
 
@@ -40,9 +41,9 @@ freq.mat.n[1,] <- init.n/J
 for (i in 1:(J*num.patch*(num.years-1))) {
     ## choose a patch where a death even will occur
     #make vectors of to and from outside of loop 
-    from.patches.vector=c(1:num.patch)
+    from.patches=c(1:num.patch)
     patch <- sample(1:num.patch,1) #patch where death occurs
-    from.patch.sample<-sample( from.patches, 1, replace=TRUE)
+    from.patch.sample<-sample(from.patches, 1, replace=TRUE)
     patch.prob<-min(patch, from.patch.sample)/max(patch, from.patch.sample)
   
   
@@ -63,17 +64,17 @@ for (i in 1:(J*num.patch*(num.years-1))) {
 
   
   
-  #could do another forloop for n 1:5 and Pr.n of 1:5 since aligned
-  COM[ceiling(J*runif(1)),patch] <- sample(n, 1, prob=Pr.n[n]) 
+  #this needs to be outside the loop; loop can only go as far as generating vector of 5 probabilities 
+  COM[ceiling(J*runif(1)),patch] <- sample(speciesnum, 1, prob=Pr.n) ###this is where the problems are happening 
   
 
   
   ## record data  -> FIX OUTPUT
   if (i %% (J*num.patch) == 0) {
-    freq.mat[year,] <- colSums(COM==n)/J
+    temp.mat.n[year,] <- colSums(COM==n)/J
     year <- year + 1 
-    n <- n
   }
+  output = list(temp.mat.n, freq.mat)
 } 
 
 }
