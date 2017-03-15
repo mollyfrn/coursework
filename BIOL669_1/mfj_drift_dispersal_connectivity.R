@@ -1,19 +1,17 @@
 
-speciesnum = c(1:5)
-freq.mat = list()
-  
-for(n in speciesnum){ #outside of workings bc both dealing with same n's
-
 ## specify parameters, initial conditions, and output matrix
 num.years <- 50 
 num.patch <- 10
-temp.mat.n <- matrix(nrow = num.years, ncol = num.patch) #each row is a year 
-#collapse into dataframe/single 50x10 matrix since redundant
-
-
 #collapse into single init val 
 J <- 100 # number of individuals PER PATCH
-init.n <- 0.2*J 
+init <- 0.2*J 
+
+freq.1.mat <- matrix(init/J, nrow = num.years, ncol = num.patch) #find way to collapse 
+freq.2.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
+freq.3.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
+freq.4.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
+freq.5.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
+#each row is a year 
 
 
 COM <- matrix(nrow=J, ncol=num.patch)
@@ -24,21 +22,13 @@ COM[(0.6*J+1):(0.8*J),] <- 4;
 COM[(0.8*J+1):J,] <- 5
 
 year <- 2 
-
 m <- 0.2
 
-#collapse to be nested 
-## record data (frequency of species X) for year 1
-temp.mat.n[1,] <- init.n/J 
-#deleted extraneous matrices bc all the same 1st column
-
-
-
-#I think this patch.prob needs to be max 1 otherwise there is a chance that m*patch.prob is over 1?
-
-
 ## run simulation
-for (i in 1:(J*num.patch*(num.years-1))) {
+for (i in 1:(J*num.patch*(num.years-1))) { #only a single number within a simulation ahhhhh!!!
+  Pr_vec = c()
+  speciesnum = c(1:5)
+  for(n in speciesnum){
     ## choose a patch where a death even will occur
     #make vectors of to and from outside of loop 
     from.patches=c(1:num.patch)
@@ -50,37 +40,40 @@ for (i in 1:(J*num.patch*(num.years-1))) {
   ## calculate Pr.n if dispersal occurs
     if (runif(1) < (m*patch.prob)) {  
     # multiplying disperal rate (m) by patch.prob gives final probability of successful dispersal
-   
       Pr.n <- sum(COM==n)/(J*num.patch)
-      output = data.frame(Pr.n, final_Pr)
-    
-    } else { 
-    
-      ## calculate Pr.n if local reproduction (not dispersal)
+      } else { 
+          ## calculate Pr.n if local reproduction (not dispersal)
       Pr.n <- sum(COM[,patch]==n)/J; 
     }
+    
+    Pr_vec = c(Pr_vec, Pr.n) #now just need to vary probabilities bc not for some reason
+  } #end of speciesnum forloop 
+  
+  
     #need to label and configure output storage
     #can create single df of probabilities as output from loop since running thru them anyway
-
-  
-  
-  #this needs to be outside the loop; loop can only go as far as generating vector of 5 probabilities 
-  COM[ceiling(J*runif(1)),patch] <- sample(speciesnum, 1, prob=Pr.n) ###this is where the problems are happening 
-  
-
-  
-  ## record data  -> FIX OUTPUT
-  if (i %% (J*num.patch) == 0) {
-    temp.mat.n[year,] <- colSums(COM==n)/J
-    year <- year + 1 
-  }
-  output = list(temp.mat.n, freq.mat)
-} 
+    COM[ceiling(J*runif(1)),patch] <- sample(c(1:5), 1, prob=c(Pr_vec[1], 
+                                                                   Pr_vec[2], 
+                                                                   Pr_vec[3], 
+                                                                   Pr_vec[4], 
+                                                                   Pr_vec[5])) 
+    
+    ## record data as discrete matrices 
+    if (i %% (J*num.patch) == 0) {
+      freq.1.mat[year,] <- colSums(COM==1)/J
+      freq.2.mat[year,] <- colSums(COM==2)/J
+      freq.3.mat[year,] <- colSums(COM==3)/J
+      freq.4.mat[year,] <- colSums(COM==4)/J
+      freq.5.mat[year,] <- colSums(COM==5)/J
+      year <- year + 1 
+    }
 
 }
 
+
 #come back to this later
 ## graph the results
+for(n in speciesnum){
 par(mfrow=c(2,3))
 plot(1:num.years, freq.mat.n[,1], type="l", xlab="Time", 
      ylab=paste("Frequency of species", n, sep = ""), ylim=c(0,1))
@@ -94,4 +87,5 @@ for (i in 2:(num.patch)) {
   lines(1:num.years,freq.1.mat[,8], type="l", col="gray", ylim=c(0,1))
   lines(1:num.years,freq.1.mat[,9], type="l", col="brown", ylim=c(0,1))
   lines(1:num.years,freq.1.mat[,10], type="l", lty=2, ylim=c(0,1))
+  }
 }
