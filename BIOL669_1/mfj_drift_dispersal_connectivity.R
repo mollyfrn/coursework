@@ -6,12 +6,12 @@ num.patch <- 10
 J <- 100 # number of individuals PER PATCH
 init <- 0.2*J 
 
-freq.1.mat <- matrix(init/J, nrow = num.years, ncol = num.patch) #find way to collapse 
-freq.2.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
-freq.3.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
-freq.4.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
-freq.5.mat <- matrix(init/J, nrow = num.years, ncol = num.patch)
-#each row is a year 
+n = c(1:5)
+
+#find way to pull into 5 discrete matrices instead of them being bound by rows
+mat = replicate(5, matrix(init/J, nrow = num.years, ncol = num.patch))
+freq.1.mat = mat[,,1]; freq.2.mat = mat[,,2]; freq.3.mat = mat[,,3]; 
+freq.4.mat = mat[,,4]; freq.5.mat = mat[,,5]
 
 
 COM <- matrix(nrow=J, ncol=num.patch)
@@ -70,32 +70,15 @@ for (i in 1:(J*num.patch*(num.years-1))) { #only a single number within a simula
 
 }
 
+matrices = list(freq.1.mat, freq.2.mat, freq.3.mat, freq.4.mat, freq.5.mat)
 
+for(t in matrices){
 ## graph the results
+  test = matrices[t]
 par(mfrow=c(2,3))
-plot(1:num.years, freq.1.mat[,1], type="l", xlab="Time", 
-     ylab="Frequency of species 1", ylim=c(0,1))
-for (i in 2:(num.patch)) {
-  lines(1:num.years,freq.1.mat[,i], type="l", col=rainbow(num.patch)[i] , ylim=c(0,1))
-}
-
-plot(1:num.years, freq.2.mat[,1], type="l", xlab="Time", 
-     ylab="Frequency of species 2", ylim=c(0,1))
-for (i in 2:(num.patch)) {
-  lines(1:num.years,freq.2.mat[,i], type="l", col=rainbow(num.patch)[i], ylim=c(0,1))
-}
-plot(1:num.years, freq.3.mat[,1], type="l", xlab="Time", 
-     ylab="Frequency of species 3", ylim=c(0,1))
-for (i in 2:(num.patch)) {
-  lines(1:num.years,freq.3.mat[,i], type="l", col=rainbow(num.patch)[i], ylim=c(0,1))
-}
-plot(1:num.years, freq.4.mat[,1], type="l", xlab="Time", 
-     ylab="Frequency of species 4", ylim=c(0,1))
-for (i in 2:(num.patch)) {
-  lines(1:num.years,freq.4.mat[,i], type="l", col=rainbow(num.patch)[i], ylim=c(0,1))
-}
-plot(1:num.years, freq.5.mat[,1], type="l", xlab="Time", 
-     ylab="Frequency of species 5", ylim=c(0,1))
-for (i in 2:(num.patch)) {
-  lines(1:num.years,freq.5.mat[,i], type="l", col=rainbow(num.patch)[i], ylim=c(0,1))
+plot(1:num.years, t[,1], type="l", xlab="Time", 
+     ylab=paste("Frequency of species in", t, sep = ""), ylim=c(0,1))
+  for (i in 2:(num.patch)) {
+    lines(1:num.years,m[,i], type="l", col=rainbow(num.patch)[i] , ylim=c(0,1))
+  }
 }
