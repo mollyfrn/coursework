@@ -20,6 +20,7 @@ library(gridExtra)
 library(wesanderson)
 library(stats)
 library(MASS)
+library(rstanarm)
 # Due Date: Tuesday May 9th, 2017
 # 
 # Problem 1
@@ -35,7 +36,9 @@ quinn1 = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2
 # to the beginning of those functions.  e.g. stan_lm).
 # Hint: For question 1 you may get an error for fitting your model that says "'location' must be specified".  
 # For some reason, the stan_lm function requires a prior argument. Use prior=NULL, to remove this error.
-
+quinn1$fdensity = factor(quinn1$Density)
+finegg = stan_glm(Eggs~fdensity*Season, family=gaussian, prior = NULL, data = quinn1)
+summary(finegg)
 
 # 1.2) Obtain 95% percentile and 95% HPD credible intervals for all the treatment effects.
 
