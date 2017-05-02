@@ -1,6 +1,26 @@
+# ENEC563 Take-home Final 
+# Molly F. Jenkins 
+# ENEC563
+# 05/02/2017
+
+# setwd("C:/git/coursework/ENEC563")
+#'#' Please download and install the following packages:
+library(raster)
+library(maps)
+library(sp)
+library(rgdal)
+library(maptools)
+library(rgeos)
+library(dplyr)
+library(fields)
+library(tidyr)
+library(ggplot2)
+library(nlme)
+library(gridExtra)
+library(wesanderson)
+library(stats)
+library(MASS)
 # Due Date: Tuesday May 9th, 2017
-# 
-# 
 # 
 # Problem 1
 quinn1 = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/quinn1-1.csv", header = TRUE)
