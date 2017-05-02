@@ -50,7 +50,7 @@ stan_trace(finegg)
 summary(finegg,probs=c(.05,.5,.95))$summary
 
 library(coda)
-HPDinterval(as.mcmc(as.data.frame(ipoanc)[,1:4]))
+HPDinterval(as.mcmc(as.data.frame(finegg)[,1:4]))
 
 # 1.3) Graph the estimated posterior distributions for all the parameters in the model.
 stan_hist(finegg)
@@ -58,33 +58,54 @@ stan_hist(finegg)
 
 # 1.4) Obtain estimates of the six treatment means as well as 95% percentile credible intervals for these means. 
 # Compare these values to what you obtained in Assignment 2. (You may use the key for Assignment 2 if you wish.)
-# 
-# 
-# 
+quinn1$predegg = predict(finegg) #make sure using correct predict function for glm_stan object
+HPDinterval(as.mcmc(quinn1[,1:5])) #right? check vals
+
 # Problem 2: 
-# This data set contains the results of an experiment set up to determine the effect of temperature on the growth rates of corals. The variables contained in the data set are the following.
+# This data set contains the results of an experiment set up to determine the effect of temperature on the growth rates of corals. 
+# The variables contained in the data set are the following: 
+#   tank: identifies the three different aquaria that serve as replicates for a given temperature treatment. 
+#     This identifier is not unique.
+#   temp: is the temperature that a particular aquarium was maintained at for the duration of the experiment. 
+#     Three temperature levels were used: 25°C, 28°C, and 32°C.
+#   incr: the gain in dry mass (g) experienced by a coral over one time period.
+#   id: an identifier that uniquely identifies the different coral animals used in the experiment.
+#   surf.area: the surface area of the individual corals (cm2) at the start of the experiment.
+#   tank.grp: a unique identifier that identifies the nine different aquaria used in the experiment.
+#   inctime: the length of time (days) over which the mass gain (incr) occurred.
+# ***rate: this is the growth rate, the mass gain (incr) divided by time (inctime) reported in mg/day.
+#   time.period: identifies the time period of the growth. It is numbered 1, 2, and 3 to correspond to the first, second, and third growth rate measurements for a given animal.
 # 
-# tank: identifies the three different aquaria that serve as replicates for a given temperature treatment. This identifier is not unique.
-# temp: is the temperature that a particular aquarium was maintained at for the duration of the experiment. Three temperature levels were used: 25°C, 28°C, and 32°C.
-# incr: the gain in dry mass (g) experienced by a coral over one time period.
-# id: an identifier that uniquely identifies the different coral animals used in the experiment.
-# surf.area: the surface area of the individual corals (cm2) at the start of the experiment.
-# tank.grp: a unique identifier that identifies the nine different aquaria used in the experiment.
-# inctime: the length of time (days) over which the mass gain (incr) occurred.
-# rate: this is the growth rate, the mass gain (incr) divided by time (inctime) reported in mg/day.
-# time.period: identifies the time period of the growth. It is numbered 1, 2, and 3 to correspond to the first, second, and third growth rate measurements for a given animal.
-# Because of logistical difficulties it was not possible to measure all 162 coral animals on the same day. So, the length of the observational periods varied slightly for some of the animals from different aquaria. To account for this growth increments were divided by the corresponding time interval to yield a growth rate. All analyses were carried out on the growth rates.
+# Because of logistical difficulties it was not possible to measure all 162 coral animals on the same day. 
+# So, the length of the observational periods varied slightly for some of the animals from different aquaria. 
+# To account for this growth increments were divided by the corresponding time interval to yield a growth rate. 
+# All analyses were carried out on the growth rates.
 # 
-# It was suspected that there might be some latency effects of temperature. In particular it was thought that there would be an initial adjustment period during which the animals acclimated to their aquaria after which the animals would begin to exhibit their true response to temperature. So a linear relationship between growth and time was not expected. As a result it was decided to treat time as a categorical variable (time.period) in this analysis.
+# It was suspected that there might be some latency effects of temperature. 
+# In particular it was thought that there would be an initial adjustment period during which 
+# the animals acclimated to their aquaria after which the animals would begin to exhibit their true response to temperature. 
+# So a linear relationship between growth and time was not expected. 
+# As a result it was decided to treat time as a categorical variable (time.period) in this analysis.
 # 
-# Important features of the experimental design
-# 
-# There are nine aquaria and each aquarium contained 18 different coral animals.
-# Growth rates were obtained for each coral animal at three different time points in the study yielding 3 × 18 × 9 = 486 observations. At each time point the growth rate was calculated as the change in dry mass of the animal since the last measurement divided by the length of time. The first growth rate was obtained as the change from the animal's initial dry mass (a value that is not reported in the data you are given).
-# Temperature treatments were randomly assigned to aquaria so that there were three aquaria (replicates) at each temperature. The same temperature was maintained in that aquarium for the duration of the experiment. The nine different aquaria used in the experiment are uniquely identified by the variable tank.grp.
-# Although effort was made to choose coral animals of roughly the same initial size, this turned out to be impossible. It is suspected that an animal's size might affect its growth rate over time or its response to temperature or both. Because an animal's initial surface area was thought to be a more useful predictor than its initial mass, surface area (cm2) is reported in the data set for each animal at the beginning of the study.
-# The primary objective of this exercise is to determine how an animal's growth rate changes over time and to determine if the nature of that change varies with temperature. This needs to be done in a way that controls for any confounding variables while properly accounting for the experimental design.
-# 
+# Important features of the experimental design: 
+# There are 9 aquaria, and each aquarium contained 18 different coral animals.
+# Growth rates were obtained for each coral animal at three different time points in the study 
+# yielding 3 × 18 × 9 = 486 observations. 
+# At each time point the growth rate was calculated as 
+# the change in dry mass of the animal since the last measurement divided by the length of time. 
+# The first growth rate was obtained as the change from the animal's initial dry mass 
+# (a value that is not reported in the data you are given).
+# Temperature treatments were randomly assigned to aquaria so that there were three aquaria (replicates) at each temperature. 
+# The same temperature was maintained in that aquarium for the duration of the experiment. 
+# The nine different aquaria used in the experiment are uniquely identified by the variable tank.grp.
+# Although effort was made to choose coral animals of roughly the same initial size, this turned out to be impossible. 
+# It is suspected that an animal's size might affect its growth rate over time or its response to temperature or both. 
+# Because an animal's initial surface area was thought to be a more useful predictor than its initial mass, 
+# surface area (cm2) is reported in the data set for each animal at the beginning of the study.
+# The primary objective of this exercise is to determine how an animal's growth rate changes over time 
+# and to determine if the nature of that change varies with temperature. 
+# This needs to be done in a way that controls for any confounding variables 
+# while properly accounting for the experimental design.
 
 corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/corals.txt", header = TRUE)
 
@@ -145,13 +166,31 @@ corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4e
 
 
 # Problem 3
-# The phenomenon of industrial melanism is one of the textbook examples of natural selection in action. The relative prevalence of two natural color morphs of the moth Biston betularia in England has changed over time apparently in response to industrial air pollution. The dark morph flourishes in polluted areas where tree trunks are darkened by soot while the light morph flourishes in less polluted areas where tree trunks are lighter. Bishop (1971) investigated a naturally occurring cline of Biston betularia extending from industrial Liverpool (most polluted) to the rural countryside of North Wales (least polluted). One of the analyses he carried out is the subject of this exam question.
+# The phenomenon of industrial melanism is one of the textbook examples of natural selection in action. 
+# The relative prevalence of two natural color morphs of the moth Biston betularia in England has changed over time 
+#  apparently in response to industrial air pollution. 
+# The dark morph flourishes in polluted areas where tree trunks are darkened by soot while the light morph flourishes 
+# in less polluted areas where tree trunks are lighter.
+# Bishop (1971) investigated a naturally occurring cline of Biston betularia extending from industrial Liverpool (most polluted) 
+# to the rural countryside of North Wales (least polluted). 
+# One of the analyses he carried out is the subject of this exam question.
 # 
-# Bishop selected seven woodlands (Location) at varying distances (Distance) from Liverpool (in km). He describes his experimental protocol as follows, p. 224-225.
-# 
-# In June and early July 1966 and 1967, eight trees (occasionally sixteen) were selected at random at each of several localities every day. Equal numbers of frozen typical and carbonaria moths were glued to these in life-like positions. It was assumed that these moths would be subject to predation by birds in the manner observed by Kettlewell (1955). The moths were placed on a different aspect of the tree-trunks each day at heights of from 0.5 to 2. m. The position of each moth was noted and after 24 hrs a record was made as to whether or not it had been removed (or preyed upon). Remaining moths were then detached and the process was repeated with fresh moths on a different random series of trees. The long duration of the experiment meant that predation occurred over a range of weather conditions.
-# Unfortunately the raw data are unavailable. Instead we have the results summarized by site for each Morph. The variable Num_moths records how many total moths of a particular Morph were exposed to predation at a particular site and the variable Num_removed records the number of these individuals that was removed presumably by predators. The question of interest is whether the predation rate  (proportion of individuals removed) varies with the distance from Liverpool and, more importantly, whether this relationship is different for the two color morphs.
-# 
+# Bishop selected seven woodlands (Location) at varying distances (Distance) from Liverpool (in km). 
+# He describes his experimental protocol as follows, p. 224-225:
+# In June and early July 1966 and 1967, eight trees (occasionally sixteen) were selected at random 
+# at each of several localities every day. Equal numbers of frozen typical and carbonaria moths 
+# were glued to these in life-like positions. It was assumed that these moths would be subject to predation by birds 
+# in the manner observed by Kettlewell (1955). The moths were placed on a different aspect of the tree-trunks each day 
+# at heights of from 0.5 to 2. m. The position of each moth was noted and after 24 hrs a record was made 
+# as to whether or not it had been removed (or preyed upon). Remaining moths were then detached 
+# and the process was repeated with fresh moths on a different random series of trees. 
+# The long duration of the experiment meant that predation occurred over a range of weather conditions.
+# Unfortunately the raw data are unavailable. Instead we have the results summarized by site for each Morph. 
+# The variable Num_moths records how many total moths of a particular Morph were exposed to predation at a particular site 
+# and the variable Num_removed records the number of these individuals that was removed presumably by predators. 
+# The question of interest is whether the predation rate  (proportion of individuals removed) varies 
+# with the distance from Liverpool and, more importantly, 
+# whether this relationship is different for the two color morphs.
 
 moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/moths.csv", header = TRUE)
 
