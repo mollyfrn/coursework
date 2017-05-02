@@ -21,6 +21,7 @@ library(wesanderson)
 library(stats)
 library(MASS)
 library(rstanarm)
+library(rstan)
 # Due Date: Tuesday May 9th, 2017
 # 
 # Problem 1
@@ -39,10 +40,21 @@ quinn1 = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2
 quinn1$fdensity = factor(quinn1$Density)
 finegg = stan_glm(Eggs~fdensity*Season, family=gaussian, prior = NULL, data = quinn1)
 summary(finegg)
+#rhat is 1 for all parms 
+#4 chains
+#plotting
+str(finegg)
+stan_trace(finegg)
 
 # 1.2) Obtain 95% percentile and 95% HPD credible intervals for all the treatment effects.
+summary(finegg,probs=c(.05,.5,.95))$summary
+
+library(coda)
+HPDinterval(as.mcmc(as.data.frame(ipoanc)[,1:4]))
 
 # 1.3) Graph the estimated posterior distributions for all the parameters in the model.
+stan_hist(finegg)
+
 
 # 1.4) Obtain estimates of the six treatment means as well as 95% percentile credible intervals for these means. 
 # Compare these values to what you obtained in Assignment 2. (You may use the key for Assignment 2 if you wish.)
