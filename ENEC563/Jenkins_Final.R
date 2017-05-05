@@ -47,7 +47,7 @@ str(finegg)
 stan_trace(finegg)
 
 # 1.2) Obtain 95% percentile and 95% HPD credible intervals for all the treatment effects.
-summary(finegg,probs=c(.05,.5,.95))$summary
+summary(finegg$stan_summary,probs=c(.05,.5,.95))
 
 library(coda)
 HPDinterval(as.mcmc(as.data.frame(finegg)[,1:4]))
@@ -59,9 +59,16 @@ stan_hist(finegg)
 # Compare these values to what you obtained in Assignment 2. (You may use the key for Assignment 2 if you wish.)
 quinn1$predegg = predict(finegg) #make sure using correct predict function for glm_stan object
 
-#rerun model w/predicted means to gen intervals on model object?
-fineggs = stan_glm(predegg~fdensity*Season, family=gaussian, data = quinn1, iter = 8000)
-HPDinterval(as.mcmc(as.data.frame(fineggs[,1:4]))) #troubleshoot, not converging even at 8000 iterations^ 
+#rerun model w/predicted means to gen intervals on model object? Not HPD intervals, just reg intervals!!
+# fineggs = stan_glm(predegg~fdensity*Season, family=gaussian, data = quinn1, iter = 8000)
+# summary(fineggs$stan_summary,probs=c(.05,.5,.95)) #troubleshoot, not converging even at 8000 iterations^ 
+
+#OR obtain intercept estimates: 
+coef(finegg)
+summary(finegg$stan_summary,pars=c("intercept","fdensity12","fdensity24","Seasonsummer", "fdensity12:Seasonsummer", "fdensity24:Seasonsummer"))
+
+#last option: 
+preds = predict(finegg,type="response")
 
 # Problem 2: 
 # This data set contains the results of an experiment set up to determine the effect of temperature on the growth rates of corals. 
