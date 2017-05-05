@@ -55,11 +55,13 @@ HPDinterval(as.mcmc(as.data.frame(finegg)[,1:4]))
 # 1.3) Graph the estimated posterior distributions for all the parameters in the model.
 stan_hist(finegg)
 
-
 # 1.4) Obtain estimates of the six treatment means as well as 95% percentile credible intervals for these means. 
 # Compare these values to what you obtained in Assignment 2. (You may use the key for Assignment 2 if you wish.)
 quinn1$predegg = predict(finegg) #make sure using correct predict function for glm_stan object
-HPDinterval(as.mcmc(quinn1[,1:5])) #right? check vals
+
+#rerun model w/predicted means to gen intervals on model object?
+fineggs = stan_glm(predegg~fdensity*Season, family=gaussian, data = quinn1, iter = 8000)
+HPDinterval(as.mcmc(as.data.frame(fineggs[,1:4]))) #troubleshoot, not converging even at 8000 iterations^ 
 
 # Problem 2: 
 # This data set contains the results of an experiment set up to determine the effect of temperature on the growth rates of corals. 
@@ -74,7 +76,8 @@ HPDinterval(as.mcmc(quinn1[,1:5])) #right? check vals
 #   tank.grp: a unique identifier that identifies the nine different aquaria used in the experiment.
 #   inctime: the length of time (days) over which the mass gain (incr) occurred.
 # ***rate: this is the growth rate, the mass gain (incr) divided by time (inctime) reported in mg/day.
-#   time.period: identifies the time period of the growth. It is numbered 1, 2, and 3 to correspond to the first, second, and third growth rate measurements for a given animal.
+#   time.period: identifies the time period of the growth. It is numbered 1, 2, and 3 to correspond to the first, second, 
+#   and third growth rate measurements for a given animal.
 # 
 # Because of logistical difficulties it was not possible to measure all 162 coral animals on the same day. 
 # So, the length of the observational periods varied slightly for some of the animals from different aquaria. 
