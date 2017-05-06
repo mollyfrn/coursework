@@ -22,6 +22,7 @@ library(stats)
 library(MASS)
 library(rstanarm)
 library(rstan)
+library(gamlss)
 # Due Date: Tuesday May 9th, 2017
 # 
 # Problem 1
@@ -203,10 +204,14 @@ corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4e
 # whether this relationship is different for the two color morphs.
 
 moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/moths.csv", header = TRUE)
-#refer back to lec 24 for sep intercepts mod and level 1 vs level 2 predictor breakdown
-ggplot(moths, aes(x=Num_removed))+geom_histogram(binwidth = 1)+facet_grid(Location~Morph)
+#refer back to lec 24 +25 for sep intercepts mod and level 1 vs level 2 predictor breakdown
+ggplot(moths, aes(x = Distance, y=Num_removed, color = Morph))+geom_point()+geom_smooth(se = FALSE)
 table(moths$Num_moths, moths$Distance)
-#weird structural things going on
+#weird structural things going on; looks like dark has the advantage w/in 20 km radius of Liverpool but beyond that threshold 
+#dark morph held at disadvtantage 
+#also looks like binomial dist, both morphs experience two sep means  
+#finally, num_moths varies between 52-92 moths initially placed at each site! 
+
 
 # Questions:
 # 3.1) A single regression model involving the predictors Distance and Morph can answer the researcher's question of interest. 
@@ -217,33 +222,60 @@ table(moths$Num_moths, moths$Distance)
 # and answer the researcher's question. Be sure to identify what the variables in your expression represent.
 # Hint 2: I'm not asking you to include the complications discussed in Question 6 at this point.
 
+#Yij = B0+B1X; where B0 = Distance and B1 includes a dummy variable coded 1 for dark morph and 0 for light morph, 
+#or can be 1 for light morph and 0 for dark morph - Such that #within each location, means may vary morph by morph. 
+#if they don't vary, null will be B0 = B0+B1X in terms of having no difference in the mean 
+
 
 # 3.2) Using the expression you've written as your answer to Question 1, state a null hypothesis 
 # in terms of model parameters that directly tests whether the relationship between predation rate and distance is the same 
 # for the two morphs.
 
-
+#H0: B0 = B0+B1X 
+#that there is no difference in the response of dark or light morph to distance from Liverpool/industrialization, and subsequently, 
+#that there is no survival difference in the morphs either that differentiates the two.  
+#Dependent variable: Number of moths removed 
+#Independent variable: Morph, as modified by distance 
 
 # 3.3) Given the nature of the response variable, fit an appropriate regression model 
 # that addresses the researcher's primary question.
-mothmod = stan_glmer(Num_removed~Distance*Morph, data = moths, family = NBI)
+contrasts(moths$Morph)
+mothmod1 = glm.nb(Num_removed~Distance, data = moths)
+mothmod2 = glm.nb(Num_removed~Distance+Morph, data = moths)
+mothmod3 = gamlss(Num_removed~Distance, sigma.formula = ~Morph, data = moths, family = NBI) #constant mean, varying theta
+mothmod4 = gamlss(Num_removed~Distance+Morph, sigma.formula = ~Morph, data = moths, family = NBI) #sep means and disp mods for morphs
+summary(mothmod)
+summary(mothmod2)
+summary(mothmod3)
+summary(mothmod4)
+#remember that the sigma parm is (1/theta)
+#perform tranformations to compare coefs across model types
+
 
 # 3.4) Test the overall fit of the model of Question 3 using an appropriate goodness of fit test. 
 # Verify that the test is appropriate.
+LR.test(mothmod,mothmod2)
+#do I need to transform sigma first since technically working with T values, not sigma  
 
 
 # 3.5) There's a structural characteristic of these data that we've been ignoring that may be making the data heterogeneous. 
 # The structure is represented by a variable in the data set. What am I talking about?
-#the density of moths overall resulting in a ratio removed standardized for each site
- 
+
+#The density of moths overall as calculated by incorporating the Num_moths variable. A ratio of Num_removed/Num_moths would be
+#more appropriate. 
 
 # 3.6) Refit your model from Question 3 but this time also account for the structure of the data. 
 # In reference to this structure, which variable in your model is a level-1 variable and which variable is a level-2 variable?
-
-#include offset(log(Num_moths)) in model to standardize Num removed for abundance
-#(analagous to relationship between S and log(area) in density)
-
-
+#not including offset because 
+ #Num removed is level 2 predictor that varies with each distance interval 
+mglm <- glm.nb(cbind(Num_removed, Num_moths-Num_removed)~Distance, data=moths)
+summary(mglm)
+mglm2 <- glm.nb(cbind(Num_removed, Num_moths-Num_removed)~Distance+Morph, data=moths)
+mglm3 <- glm.nb(cbind(Num_removed, Num_moths-Num_removed)~Distance*Morph, data=moths)
+summary(mglm2)
+summary(mglm3)
+anova(mglm,mglm2,mglm3, test="Chisq")
+#interactive term much better ?
 
 
 # 3.7) The statistical evidence for this structure turns out to be very weak. 
@@ -251,18 +283,19 @@ mothmod = stan_glmer(Num_removed~Distance*Morph, data = moths, family = NBI)
 # (Note: We'll continue to use the model with structure in the remaining questions anyway.)
 # Hint 1: If you elect to carry out a statistical test using the likelihood 
 # you need to be aware that in the hypothesis test you're carrying out, 
-# H0: ??2 = 0, zero is a boundary value for ??2. 
+# H0: T2 = 0, zero is a boundary value for T2. 
 # The usual distribution of the likelihood ratio statistic is incorrect for boundary values. 
-# The p-value adjustment that we used for testing H0: ?? = 0 in a negative binomial model (Page 3 on  lecture 17) 
+# The p-value adjustment that we used for testing H0: T = 0 in a negative binomial model (Page 3 on  lecture 17) 
 # is the same adjustment you need to carry out here.
 
-#hint^ clearly because of log link? 
+ 
 
 
 # 3.8) Using the model from question 6, compute a statistic that compares the odds of being removed 50 km away 
 # from Liverpool to the odds of being removed in Liverpool (0 km away). 
 # Calculate this statistic separately for the dark and light morphs and interpret your results.
 
+#LR test of predicted vals? 
 
 # 3.9) Using the model from question 6, produce a graph that summarizes the results of the analysis as follows.
 #   a) Plot the empirical proportions (the observed proportions of moths eaten) as a function of distance. 
@@ -287,4 +320,7 @@ mothmod = stan_glmer(Num_removed~Distance*Morph, data = moths, family = NBI)
 # The actual observations are the number of moths removed out of a fixed total on separate trees at a given location. 
 # The results for individual trees were then combined to yield the data we used for this analysis. 
 # Which of the four basic assumptions of the probability model that we've been using is the one that is most likely to be 
-# (but not necessarily) violated by combining data in this fashion?                                                                                                                                                                             
+# (but not necessarily) violated by combining data in this fashion? 
+
+#We're violating the assumption of independence - once a bird lands on a tree and removes one moth, it is more likely 
+#to notice and remove other moths on the same tree. 
