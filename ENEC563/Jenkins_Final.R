@@ -203,6 +203,10 @@ corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4e
 # whether this relationship is different for the two color morphs.
 
 moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/moths.csv", header = TRUE)
+#refer back to lec 24 for sep intercepts mod and level 1 vs level 2 predictor breakdown
+ggplot(moths, aes(x=Num_removed))+geom_histogram(binwidth = 1)+facet_grid(Location~Morph)
+table(moths$Num_moths, moths$Distance)
+#weird structural things going on
 
 # Questions:
 # 3.1) A single regression model involving the predictors Distance and Morph can answer the researcher's question of interest. 
@@ -214,7 +218,6 @@ moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-
 # Hint 2: I'm not asking you to include the complications discussed in Question 6 at this point.
 
 
-
 # 3.2) Using the expression you've written as your answer to Question 1, state a null hypothesis 
 # in terms of model parameters that directly tests whether the relationship between predation rate and distance is the same 
 # for the two morphs.
@@ -223,7 +226,7 @@ moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-
 
 # 3.3) Given the nature of the response variable, fit an appropriate regression model 
 # that addresses the researcher's primary question.
-
+mothmod = stan_glmer(Num_removed~Distance*Morph, data = moths, family = NBI)
 
 # 3.4) Test the overall fit of the model of Question 3 using an appropriate goodness of fit test. 
 # Verify that the test is appropriate.
@@ -231,10 +234,16 @@ moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-
 
 # 3.5) There's a structural characteristic of these data that we've been ignoring that may be making the data heterogeneous. 
 # The structure is represented by a variable in the data set. What am I talking about?
-
+#the density of moths overall resulting in a ratio removed standardized for each site
+ 
 
 # 3.6) Refit your model from Question 3 but this time also account for the structure of the data. 
 # In reference to this structure, which variable in your model is a level-1 variable and which variable is a level-2 variable?
+
+#include offset(log(Num_moths)) in model to standardize Num removed for abundance
+#(analagous to relationship between S and log(area) in density)
+
+
 
 
 # 3.7) The statistical evidence for this structure turns out to be very weak. 
@@ -246,6 +255,8 @@ moths = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-
 # The usual distribution of the likelihood ratio statistic is incorrect for boundary values. 
 # The p-value adjustment that we used for testing H0: ?? = 0 in a negative binomial model (Page 3 on  lecture 17) 
 # is the same adjustment you need to carry out here.
+
+#hint^ clearly because of log link? 
 
 
 # 3.8) Using the model from question 6, compute a statistic that compares the odds of being removed 50 km away 
