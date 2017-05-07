@@ -311,7 +311,7 @@ mothplot = mothplot+geom_point(aes(y=preds), color = "green")+geom_smooth(se = F
 #   the fixed effect estimates and the random effect predictions. 
 #   Plot these as points being sure to distinguish them from the points you plotted in (a).
 moths$ranpred = fixef(altmod2)[1] + ranef(altmod2)[[1]][1:14,1] #-> using fixed and random to gen ests, plot 
-#doesn't make ANY sense -> troubleshoot why means don't correspond to Num_removed 
+#troubleshoot why not adding according to num_moths/location and bunching at beginning instead
 mothplot+geom_point(aes(y=ranpred), color = "black")+geom_smooth(se = FALSE)
 
 #   d) Label your diagram appropriately using a coherent set of colors and symbol types.
