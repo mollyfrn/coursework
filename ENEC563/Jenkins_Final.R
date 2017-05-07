@@ -294,7 +294,7 @@ LL <- 2*(logLik(altmod3)-logLik(altmod2))
 # from Liverpool to the odds of being removed in Liverpool (0 km away). 
 # Calculate this statistic separately for the dark and light morphs and interpret your results.
 
-#LR test of predicted vals at extremes? use altmod2 to gen predications
+#LR test of predicted vals at extremes? use altmod2 to gen predictions
 
 # 3.9) Using the model from question 6, produce a graph that summarizes the results of the analysis as follows.
 #   a) Plot the empirical proportions (the observed proportions of moths eaten) as a function of distance. 
