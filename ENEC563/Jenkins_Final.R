@@ -299,19 +299,20 @@ LL <- 2*(logLik(altmod3)-logLik(altmod2))
 # 3.9) Using the model from question 6, produce a graph that summarizes the results of the analysis as follows.
 #   a) Plot the empirical proportions (the observed proportions of moths eaten) as a function of distance. 
 #   Distinguish the plotted values by their Morph type.
-mothplot = ggplot(moths, aes(x = Distance, y=Num_removed/Num_moths, color = Morph))+geom_point()+geom_smooth(se = FALSE)
+mothplot = ggplot(moths, aes(x = Distance, y=Num_moths/Num_removed, color = Morph))+geom_point()+geom_smooth(se = FALSE)
 mothplot
 #   b) Plot the predicted probability of being eaten as a function of distance using only 
 #   the fixed effect estimates from your model. 
 #   Display these as curves superimposed on your scatter plot of empirical probabilities
-mothplot+geom_point(aes(y=predprobF))+geom_smooth(se = FALSE)
+moths$preds = fixef(altmod2)[1]
+mothplot = mothplot+geom_point(aes(y=preds), color = "green")+geom_smooth(se = FALSE)
 
 #   c) Plot the predicted probability of being eaten as a function of distance using both 
 #   the fixed effect estimates and the random effect predictions. 
 #   Plot these as points being sure to distinguish them from the points you plotted in (a).
 moths$ranpred = fixef(altmod2)[1] + ranef(altmod2)[[1]][1:14,1] #-> using fixed and random to gen ests, plot 
 #doesn't make ANY sense -> troubleshoot why means don't correspond to Num_removed 
-mothplot+geom_point(aes(y=ranpred))+geom_smooth(se = FALSE)
+mothplot+geom_point(aes(y=ranpred), color = "black")+geom_smooth(se = FALSE)
 
 #   d) Label your diagram appropriately using a coherent set of colors and symbol types.
 mothplot+theme_classic()
