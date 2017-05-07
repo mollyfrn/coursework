@@ -23,6 +23,7 @@ library(MASS)
 library(rstanarm)
 library(rstan)
 library(gamlss)
+library(lme4)
 # Due Date: Tuesday May 9th, 2017
 # 
 # Problem 1
@@ -241,7 +242,7 @@ table(moths$Num_moths, moths$Distance)
 # that addresses the researcher's primary question.
 contrasts(moths$Morph)
 nullmod1 = glm.nb(Num_removed~Distance, data = moths)
-altmod1 = glm.nb(Num_removed~Distance+Morph, data = moths)
+altmod1 = glm.nb(Num_removed~Distance+Morph, data = moths) #fixed effects
 
 # 3.4) Test the overall fit of the model of Question 3 using an appropriate goodness of fit test. 
 # Verify that the test is appropriate.
@@ -254,22 +255,20 @@ LL <- 2*(logLik(altmod1)-logLik(nullmod1))
 # The structure is represented by a variable in the data set. What am I talking about?
 
 #The density of moths overall as calculated by incorporating the Num_moths variable. A ratio of Num_removed/Num_moths would be
-#more appropriate. But ratios do badly in models! eek!
+#more appropriate. But ratios do badly in models! eek! 
 ggplot(moths, aes(x=Num_moths, y = Num_removed))+geom_point()+geom_smooth(se=FALSE)
 #linear-ish
-#need to add Num_moths as a predictor? I don't think I can add an offset in negative binom mods 
+#need to add Num_moths as a predictor? I don't think I can add an offset in negative binom mods -> but can add as a random intercept
 
 # 3.6) Refit your model from Question 3 but this time also account for the structure of the data. 
 # In reference to this structure, which variable in your model is a level-1 variable and which variable is a level-2 variable?
-#Num removed is level 2 predictor that varies randomly with each Distance interval 
+#Num_moths is level 2 predictor that varies randomly with each Distance interval 
 #Distance is the level 1 variable. 
 
 #need to add Num_moths as a random effect!!
 
-nullmod2 = glm.nb(Num_removed~Distance+Num_moths, data = moths)
-altmod2 = glm.nb(Num_removed~Distance+Morph+Num_moths, data = moths)
-1-pchisq(altmod2$deviance, altmod2$df.residual)
-#ayyyyy above 0.05 the altmod is a better fit
+nullmod2 = glmer.nb(Num_removed~Distance+(1|Num_moths), data = moths)
+altmod2 = glmer.nb(Num_removed~Distance+Morph+(1|Num_moths), data = moths)
 
 # 3.7) The statistical evidence for this structure turns out to be very weak. 
 # Demonstrate this either by carrying out a formal statistical test or by citing relevant statistics. 
@@ -281,21 +280,21 @@ altmod2 = glm.nb(Num_removed~Distance+Morph+Num_moths, data = moths)
 # The p-value adjustment that we used for testing H0: T = 0 in a negative binomial model (Page 3 on  lecture 17) 
 # is the same adjustment you need to carry out here.
 
-#compare random to nonrandom effect models
+#compare random to nonrandom effect models ie glm to glmer, right?
+#compare altmod2 to an altmod3 where the intercept is fixed by Num_moths
+altmod3 = glm.nb(Num_removed~Distance+Morph+Num_moths, data = moths)
 
-LL2 = .5*(1 - pchisq(2*(logLik(altmod2) - logLik(nullmod2)), df=1))[1]
-LL2
-#below 0.05 
-
-LL <- 2*(logLik(altmod2)-logLik(nullmod2))
+5*(1 - pchisq(2*(logLik(altmod3) - logLik(altmod2)), df=1))[1]
+#no difference
+LL <- 2*(logLik(altmod3)-logLik(altmod2))
 1-pchisq(LL,1)[1]
-#still below 0.05, even if dispersion parameter unadjusted
+#still below 0.05, even if dispersion parameter unadjusted, so again no difference 
 
 # 3.8) Using the model from question 6, compute a statistic that compares the odds of being removed 50 km away 
 # from Liverpool to the odds of being removed in Liverpool (0 km away). 
 # Calculate this statistic separately for the dark and light morphs and interpret your results.
 
-#LR test of predicted vals at extremes? 
+#LR test of predicted vals at extremes? use altmod2 to gen predications
 
 # 3.9) Using the model from question 6, produce a graph that summarizes the results of the analysis as follows.
 #   a) Plot the empirical proportions (the observed proportions of moths eaten) as a function of distance. 
@@ -310,7 +309,9 @@ mothplot+geom_point(aes(y=predprobF))+geom_smooth(se = FALSE)
 #   c) Plot the predicted probability of being eaten as a function of distance using both 
 #   the fixed effect estimates and the random effect predictions. 
 #   Plot these as points being sure to distinguish them from the points you plotted in (a).
-mothplot+geom_point(aes(y=predprobR))+geom_point(aes(y=predprobF))+geom_smooth(se = FALSE)
+moths$ranpred = fixef(altmod2)[1] + ranef(altmod2)[[1]][1:14,1] #-> using fixed and random to gen ests, plot 
+#doesn't make ANY sense -> troubleshoot why means don't correspond to Num_removed 
+mothplot+geom_point(aes(y=ranpred))+geom_smooth(se = FALSE)
 
 #   d) Label your diagram appropriately using a coherent set of colors and symbol types.
 mothplot+theme_classic()
