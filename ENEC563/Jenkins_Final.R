@@ -24,9 +24,10 @@ library(rstanarm)
 library(rstan)
 library(gamlss)
 library(lme4)
+library(lmerTest)
 # Due Date: Tuesday May 9th, 2017
 # 
-# Problem 1
+####Problem 1####
 quinn1 = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/quinn1-1.csv", header = TRUE)
 
 # Questions:
@@ -52,27 +53,29 @@ stan_trace(finegg)
 summary(finegg$stan_summary,probs=c(.05,.5,.95))
 
 library(coda)
-HPDinterval(as.mcmc(as.data.frame(finegg)[,1:4]))
+HPDinterval(as.mcmc(as.data.frame(finegg)[,1:6]))
 
 # 1.3) Graph the estimated posterior distributions for all the parameters in the model.
 stan_hist(finegg)
 
 # 1.4) Obtain estimates of the six treatment means as well as 95% percentile credible intervals for these means. 
 # Compare these values to what you obtained in Assignment 2. (You may use the key for Assignment 2 if you wish.)
-quinn1$predegg = predict(finegg) #make sure using correct predict function for glm_stan object
 
-#rerun model w/predicted means to gen intervals on model object? Not HPD intervals, just reg intervals!!
-# fineggs = stan_glm(predegg~fdensity*Season, family=gaussian, data = quinn1, iter = 8000)
-# summary(fineggs$stan_summary,probs=c(.05,.5,.95)) #troubleshoot, not converging even at 8000 iterations^ 
+summary(finegg,probs=c(.05,.5,.95))
+quinn1$ests= predict(finegg, type = "response") #having difficulty extracting, but values observable 
 
-#OR obtain intercept estimates: 
-coef(finegg)
-summary(finegg$stan_summary,pars=c("intercept","fdensity12","fdensity24","Seasonsummer", "fdensity12:Seasonsummer", "fdensity24:Seasonsummer"))
 
-#last option: 
-preds = predict(finegg,type="response")
+#From assignment 2:
+mod1 = lm(Eggs~Season*fdensity, data = quinn1)
+predparms <- with(quinn1,expand.grid(levels(Season),levels(fdensity)))
+predparms
+names(predparms) <- c("Season","fdensity")
+plotframe3 <- data.frame(predparms,predict(mod1,newdata=predparms,
+                                           interval="confidence", level = .95))
+#values seem very similar!
 
-# Problem 2: 
+
+####Problem 2:#### 
 # This data set contains the results of an experiment set up to determine the effect of temperature on the growth rates of corals. 
 # The variables contained in the data set are the following: 
 #   tank: identifies the three different aquaria that serve as replicates for a given temperature treatment. 
@@ -134,16 +137,32 @@ corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4e
 # If it were possible to add these design features sequentially each addition would cause us to change the form or type of model 
 # that we are fitting from what it was without it.
 
+#This is a split-split plot design. The tank.grp unit functions at the whole plot level. At the split plot level, 
+#within each tank we have a seperate temperature and replicate number in a crossed 2 factor design. 
+#Species vary within each tank.grp, and so this varies at the split plot level.
+#The split-split plot design comes into play considering 
+#the same individuals of the same tank.grps are sampled at 3 separate time intervals. 
+#Replicate and temp are in a crossed factor design. 
+
+corals$tank = as.factor(corals$tank)
+corals$temp = as.factor(corals$temp)
+corals$id = as.factor(corals$id)
+corals$tank.grp = as.factor(corals$tank.grp)
+corals$inctime = as.factor(corals$inctime)
+corals$time.period = as.factor(corals$time.period)
+
 
 # 2.2) Fit a sensible starting model for this experiment that properly accounts for all the design features you mentioned 
 # in Question 1.
 # Hint: Some of the factor variables have numeric codes for their categories. 
 # Don't slip up and treat these variables as numeric in your model. 
 # You don't know that the growth rate is monotonic with temperature or with time.
+mod1 = lmer(rate~temp*inctime+surf.area+(1|tank/temp), data=corals) 
+anova(mod1)
 
 
 # 2.3) Simplify the model you fit in Question 2 so that all the remaining terms are statistically significant.
-
+mod1 = lmer(rate~temp*inctime+(1|tank/temp), data=corals) 
 
 # 2.4) Obtain estimates of the mean growth rates during each time period separately by temperature 
 # and obtain 95% confidence intervals for the means. 
@@ -169,15 +188,21 @@ corals = read.table("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4e
 # Hint 3: You can also set up a contrast matrix and get the standard errors with a sandwich expression 
 # involving the variance-covariance matrix.
 
+mod2 = lmer(rate~1+temp*inctime+I(surf.area-10)+(1|tank/temp), data=corals) 
+anova(mod2)
+corals$numpred = predict(mod2,level=0)
+VarCorr(mod2)
+
+
 
 # 2.5) Prepare a suitable graph that shows the individual treatment means and the confidence intervals 
 # that you calculated in Question 4 and permits easy comparison of the effect 
 # of temperature on the mean growth rates over time.
+corplot = ggplot(corals,aes(x=time.period,y=rate))+facet_grid(tank~temp)+geom_point()+geom_smooth(se=FALSE)
+corplot+geom_point(aes(y=numpred), color = "green")
 
 
-
-
-# Problem 3
+####Problem 3####
 # The phenomenon of industrial melanism is one of the textbook examples of natural selection in action. 
 # The relative prevalence of two natural color morphs of the moth Biston betularia in England has changed over time 
 #  apparently in response to industrial air pollution. 
