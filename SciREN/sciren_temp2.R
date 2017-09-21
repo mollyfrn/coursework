@@ -13,14 +13,14 @@ bbs_sci <- read.csv("fifty_allyears.csv", header = TRUE) #mod with link to filep
 
 #Download zipped files to subdirectory:
 #zip includes data from NC and other states 
-u1 = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/50-StopData/1997ToPresent_SurveyWide/Fifty6.zip"
+u1 = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/States/NCaroli.zip"
 download.file(u1, file.path(subDir, basename(u1)))  
 
 #Change Working directory to newly created Workshop subdirectory:
 setwd(file.path(mainDir, subDir))
 
 #Unzip files:
-utils::unzip("Fifty6.zip")
+utils::unzip("NCaroli.zip")
 
 
 ui <- fluidPage(
