@@ -23,4 +23,17 @@ ui <- fluidPage(  ## creates display that auto adjusts to user's device dimensio
     )
   ))
 
+server <- function(input, output) {
+  
+  # renderPlot indicates that the function is "reactive" - it will automatically re-execute when input changes
+  output$scatter.plot <- renderPlot({
+    
+    # Render the plot:    
+    ## We'll create a stable plot size based on all data before adding [changing] subsets using points().
+    plot(uptake ~ conc, data = dat, type = "n")  ## type = "n" causes no points to be drawn.
+    points(uptake ~ conc, data = dat[dat$Type  %in% c(input$type),])
+    title(main = "Plant Trends")
+  })
+}
 
+shinyApp(ui = ui, server = server) #should make app 
