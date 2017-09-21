@@ -5,16 +5,17 @@
 
 setwd("C:/git/coursework/SciREN/")
 
-
 library(shiny)
 
-bbs_sci <- read.csv("fifty_allyears.csv", header = TRUE) #mod with link to filepath on USGS hosted website
-
+mainDir <- getwd()
+subDir <- 'SciREN'
+dir.create(file.path(mainDir, subDir))
 
 #Download zipped files to subdirectory:
-#zip includes data from NC and other states 
 u1 = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/States/NCaroli.zip"
 download.file(u1, file.path(subDir, basename(u1)))  
+#zip includes data from NC and other states 
+
 
 #Change Working directory to newly created Workshop subdirectory:
 setwd(file.path(mainDir, subDir))
@@ -22,12 +23,16 @@ setwd(file.path(mainDir, subDir))
 #Unzip files:
 utils::unzip("NCaroli.zip")
 
+bbs_sci <- read.csv("fifty_allyears.csv", header = TRUE) #mod with link to filepath on USGS hosted website
+
+#######
+
 
 ui <- fluidPage(
   
   # Title Panel: ####
   titlePanel(
-    p('Shiny Workshop Example - CO2 Uptake in Plants', style = 'font-size: 20px')
+    p('"SciREN Example 1"', style = 'font-size: 20px')
   ),
   
   sidebarPanel(width = 3,
@@ -36,16 +41,16 @@ ui <- fluidPage(
                    
                    # Check box to give us the option whether to show all plants 
                    # or just the plant selected in the slider input below
-                   checkboxInput(inputId = 'all.plants', label = 'Show All Plants', value = T),
+                   checkboxInput(inputId = 'all.birds', label = 'Show All Birds', value = T),
                    
                    # Slider bar allows us to select which plant ID to plot
                    # This slider only works if the above checkboxInput is unchecked (see server.R code)
-                   sliderInput(inputId = 'plant', label = 'Plant ID', min = min(dat$ID), max = max(dat$ID),
+                   sliderInput(inputId = 'bird', label = 'Bird ID', min = min(bbs_sci$AOU), max = max(bbs_sci$AOU),
                                value = 1),  ## sets starting value at 1
                    
                    # This group check box let's us narrow which plant Types are plotted.
                    # checkboxGroupInput differs from checkboxInput by allowing more than one to be checked
-                   checkboxGroupInput(inputId = 'type', label = 'Plant Type', choices = levels(dat$Type), 
+                   checkboxGroupInput(inputId = '', label = 'Plant Type', choices = levels(dat$Type), 
                                       selected = levels(dat$Type)), ## sets starting checks to all levels 
                    
                    # Radio buttons work like checkboxes, but result in strings/#'s instead of boolean T/F. 
