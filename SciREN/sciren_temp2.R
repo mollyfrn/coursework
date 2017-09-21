@@ -8,6 +8,21 @@ setwd("C:/git/coursework/SciREN/")
 
 library(shiny)
 
+bbs_sci <- read.csv("fifty_allyears.csv", header = TRUE) #mod with link to filepath on USGS hosted website
+
+
+#Download zipped files to subdirectory:
+#zip includes data from NC and other states 
+u1 = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/50-StopData/1997ToPresent_SurveyWide/Fifty6.zip"
+download.file(u1, file.path(subDir, basename(u1)))  
+
+#Change Working directory to newly created Workshop subdirectory:
+setwd(file.path(mainDir, subDir))
+
+#Unzip files:
+utils::unzip("Fifty6.zip")
+
+
 ui <- fluidPage(
   
   # Title Panel: ####
