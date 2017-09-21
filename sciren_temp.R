@@ -7,14 +7,14 @@
 
 ui <- fluidPage(  ## creates display that auto adjusts to user's device dimensions
   # Main title
-  titlePanel("Shiny Workshop Example - CO2 Uptake in Plants"),
+  titlePanel("SciREN Example 1"),
   # Establish sidebar layout:
   sidebarLayout(
     # Create sidebar (which we'll fill with input controls)
     sidebarPanel(
-      # Create a check box input control allowing multiple items to be checked
-      checkboxGroupInput(inputId = "type", label = "Plant Type", choices = levels(dat$Type), 
-                         selected = levels(dat$Type))  
+      # Create a check box input control allowing multiple items to be checked (like bird fam or spp)
+      checkboxGroupInput(inputId = "AOU", label = "Bird Species", choices = levels(bbs_sci$AOU), 
+                         selected = levels(bbs_sci$AOU))  
       ## Note: levels() shows all unique "names" of a class = factor object
     ),
     # Spot for the plot
