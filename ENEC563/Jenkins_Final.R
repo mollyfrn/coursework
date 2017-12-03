@@ -28,7 +28,10 @@ library(lmerTest)
 # Due Date: Tuesday May 9th, 2017
 # 
 ####Problem 1####
-quinn1 = read.csv("https://sakai.unc.edu/access/content/group/7d7a0e1c-4adb-4ee2-ace8-490a89313a59/Data/quinn1-1.csv", header = TRUE)
+quinn1 = read.csv("C:/git/coursework/quinn1.csv", header = TRUE)
+#saved on coursework main file locally  
+#write.csv(quinn1, "C:/git/coursework/quinn1.csv", row.names = FALSE)
+
 
 # Questions:
 # 1.1) Refit your final egg count rate model from Assignment 1 as a Bayesian model.  
