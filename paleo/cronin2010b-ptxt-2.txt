@@ -1,0 +1,224 @@
+﻿# Chesapeake Bay 2400 Year Isotope-Mg/Ca Data and Temperature Estimates 
+#----------------------------------------------------------------------- 
+#                World Data Service for Paleoclimatology, Boulder 
+#                                  and 
+#                     NOAA Paleoclimatology Program 
+#             National Centers for Environmental Information (NCEI)
+#----------------------------------------------------------------------- 
+# Template Version 2.0
+# NOTE: Please cite Publication, and Online_Resource and date accessed when using these data. 
+# If there is no publication information, please cite Investigators, Title, and Online_Resource and date accessed. 
+#
+# Online_Resource: https://www.ncdc.noaa.gov/paleo/study/21530 
+# Online_Resource: http://www1.ncdc.noaa.gov/pub/data/paleo/contributions_by_author/cronin2010b/cronin2010b-ptxt-2.txt
+#
+# Original_Source_URL: 
+# 
+# Description/Documentation lines begin with #
+# Data lines have no #
+#
+# Archive: Paleoceanography
+#
+# Parameter_Keywords: geochemistry, carbon isotopes, oxygen isotopes, climate reconstruction
+#--------------------
+# Contribution_Date
+#	Date: 2017-02-24
+#--------------------
+# Title
+#	Study_Name: Chesapeake Bay 2400 Year Isotope-Mg/Ca Data and Temperature Estimates 
+#--------------------
+# Investigators
+# 	Investigators: Cronin, T.M.; Hayo, K.; Thunell, R.C.; Dwyer, G.S.; Saenger, C.; Willard, D.A.
+#--------------------
+# Description_and_Notes
+#	Description: Benthic foraminifer stable isotope (d18O and d13C) and Mg/Ca data, plus Bay temperature and salinity 
+#	estimates for the past 2,400 years.  
+#--------------------
+# Publication 
+#	Authors: T.M. Cronin, K. Hayo, R.C. Thunell, G.S. Dwyer, C. Saenger, D.A. Willard
+#	Published_Date_or_Year: 2010-11-10
+#	Published_Title: The Medieval Climate Anomaly and Little Ice Age in Chesapeake Bay and the North Atlantic Ocean
+#	Journal_Name: Palaeogeography, Palaeoecology, Palaeoclimatology 
+#	Volume: 297
+#	Edition: 
+#	Issue: 2
+#	Pages: 299-310
+#	Report_Number: 
+#	DOI: 10.1016/j.palaeo.2010.08.009
+#	Online_Resource: http://www.sciencedirect.com/science/article/pii/S0031018210005031
+#	Full_Citation: 
+#	Abstract: A new 2400-year paleoclimate reconstruction from Chesapeake Bay (CB) (eastern US) was compared to other paleoclimate records in the North Atlantic region to evaluate climate variability during the Medieval Climate Anomaly (MCA) and Little Ice Age (LIA). Using Mg/Ca ratios from ostracodes and oxygen isotopes from benthic foraminifera as proxies for temperature and precipitation-driven estuarine hydrography, results show that warmest temperatures in CB reached 16-17C between 600 and 950 CE (Common Era), centuries before the classic European Medieval Warm Period (950-1100 CE) and peak warming in the Nordic Seas (1000-1400 CE). A series of centennial warm/cool cycles began about 1000 CE with temperature minima of ~8 to 9C about 1150, 1350, and 1650-1800 CE, and intervening warm periods (14-15C) centered at 1200, 1400, 1500 and 1600 CE. Precipitation variability in the eastern US included multiple dry intervals from 600 to 1200 CE, which contrasts with wet medieval conditions in the Caribbean. The eastern US experienced a wet LIA between 1650 and 1800 CE when the Caribbean was relatively dry. Comparison of the CB record with other records shows that the MCA and LIA were characterized by regionally asynchronous warming and complex spatial patterns of precipitation, possibly related to ocean-atmosphere processes.
+#------------------
+# Funding_Agency 
+#	Funding_Agency_Name: US Geological Survey
+#	Grant: Global Change Program
+#------------------
+# Site_Information 
+#	Site_Name: PTXT-2
+#	Location: Ocean>Atlantic Ocean>North Atlantic Ocean
+#	Country: United States of America
+#	Northernmost_Latitude: 38.3263
+#	Southernmost_Latitude: 38.3263
+#	Easternmost_Longitude: -76.3925
+#	Westernmost_Longitude: -76.3925
+#	Elevation: -11.5 m  
+#------------------
+# Data_Collection   
+#	Collection_Name: Cronin2010b-PTXT-2
+#	Earliest_Year: 1341
+#	Most_Recent_Year: 1984
+#	Time_Unit: AD
+#	Core_Length: m
+#	Notes: 
+#------------------
+# Chronology_Information
+#	Chronology: 
+# 
+# 	
+#----------------
+# Variables 
+#
+# Data variables follow are preceded by "##" in columns one and two.
+# Data line variables format:  Variables list, one per line, shortname-tab-longname-tab-longname components (9 components: what, material, error, units, seasonality, archive, detail, method, C or N for Character or Numeric data) 
+#
+## depth_cm	depth, , , cm, , , , ,N
+## age_AD	age, , , AD, , , , ,N
+## Mg/Ca	Magnesium/Calcium ratio, Elphidium selseyense, , mmol/mol, , paleoceanography, , ,N 
+## temp	temperature, , , degrees C, , climate reconstructions, Estimated Bay Temp , ,N
+#
+#----------------
+# Data:
+# Data lines follow (have no #)
+# Data line format - tab-delimited text, variable short name as header
+# Missing Values:  
+#
+depth_cm	age_AD	Mg/Ca	temp
+14.5	1984.32	28.03	13.47
+15	1983.85	28.78	13.88
+15.5	1983.38	41.82	21.12
+17	1981.96	22.48	10.39
+17.5	1981.49	16.59	7.11
+18.5	1980.55	17.91	7.85
+19	1980.08	33.73	16.63
+19.5	1979.6	38.01	19.01
+20.5	1978.66	33.06	16.26
+21.5	1977.72	30.28	14.72
+25	1974.42	12.94	5.09
+27	1972.53	25.33	11.97
+31	1968.75	21	9.57
+33	1966.87	28.55	13.76
+35	1964.98	25.58	12.11
+37	1963.09	19.34	8.64
+39	1961.21	19.04	8.48
+41	1959.32	32.29	15.83
+43	1957.43	37.19	18.55
+47	1953.66	37.81	18.9
+49	1951.77	21.15	9.65
+51	1949.89	28.45	13.7
+53	1948	22.5	10.4
+55	1946.11	31	15.12
+63	1938.57	20.59	9.34
+65	1936.68	42.87	21.71
+77	1925.36	35.35	17.53
+79	1923.47	29.96	14.54
+81	1921.58	33.38	16.44
+83	1919.7	32.95	16.2
+85	1917.81	28.59	13.78
+87	1915.92	28.85	13.92
+89	1914.04	27.12	12.96
+91	1912.15	26.08	12.38
+93	1910.26	22.84	10.59
+95	1908.38	25.51	12.07
+97	1906.49	26.27	12.49
+101	1902.72	30.56	14.87
+103	1900.83	19.31	8.63
+105	1898.94	19.06	8.49
+107	1897.06	33	16.23
+109	1895.17	34.13	16.85
+111	1893.28	26.58	12.66
+113	1891.4	25	11.79
+115	1889.51	25.87	12.27
+117	1881.44	25.15	11.87
+119	1877.58	18.47	8.16
+121	1873.73	32.69	16.06
+125	1866.02	33.32	16.41
+127	1862.16	41.76	21.09
+131	1854.45	30.42	14.79
+133	1850.59	28.16	13.54
+135	1846.74	19.23	8.58
+137	1842.88	24.67	11.6
+143	1831.31	19.43	8.69
+145	1827.46	18.07	7.94
+147	1823.6	23.28	10.83
+149	1819.74	23.74	11.08
+151	1815.89	42.62	21.57
+153	1812.03	19.98	9
+155	1808.18	28.27	13.6
+157	1804.32	31.56	15.43
+159	1800.46	21.24	9.7
+161	1796.61	25.78	12.22
+163	1792.75	17.06	7.38
+169	1781.18	26.9	12.84
+171	1777.33	24.06	11.27
+177	1765.76	28.07	13.49
+181	1758.05	23.52	10.96
+183	1754.19	34.47	17.04
+185	1750.34	13.91	5.63
+187	1746.48	25.51	12.07
+193	1734.91	18.22	8.02
+195	1731.06	22.99	10.67
+197	1727.2	24.62	11.57
+199	1723.34	30.66	14.93
+203	1715.63	12.89	5.06
+209	1704.06	28.14	13.53
+211	1700.21	24.51	11.51
+213	1696.35	18.71	8.29
+215	1692.5	30.38	14.77
+221	1680.93	15.94	6.76
+225	1673.22	25.36	11.99
+237	1650.08	29.81	14.46
+239	1646.22	23.11	10.74
+241	1642.37	19.92	8.97
+243	1638.51	33.67	16.6
+251	1623.09	21.3	9.73
+257	1611.52	30.76	14.98
+259	1607.66	29.7	14.4
+261	1603.81	19.71	8.85
+263	1599.95	21.04	9.59
+265	1596.1	23.72	11.08
+267	1592.24	19.01	8.46
+269	1588.38	19.74	8.87
+277	1572.96	24	11.23
+279	1569.1	27.96	13.43
+297	1534.4	23.64	11.03
+299	1530.54	26.71	12.74
+301	1526.69	18.04	7.92
+303	1522.83	11.6	4.35
+305	1518.98	21.76	9.99
+309	1511.26	21.24	9.7
+311	1507.41	14.25	5.82
+313	1503.55	33.63	16.58
+315	1499.7	26.07	12.38
+317	1495.84	21.32	9.74
+319	1491.98	15.95	6.76
+325	1480.42	17.9	7.84
+327	1476.56	26.45	12.59
+329	1472.7	22.3	10.29
+331	1468.85	18.44	8.14
+333	1464.99	16.16	6.88
+339	1453.42	21.87	10.05
+343	1445.71	20.07	9.05
+349	1434.14	31.42	15.35
+351	1430.29	25.17	11.88
+353	1426.43	30.29	14.72
+355	1422.58	22.63	10.47
+357	1418.72	22.57	10.44
+359	1414.86	27.68	13.27
+372	1389.8	28.07	13.49
+375	1384.02	26.06	12.37
+377	1380.16	25.02	11.8
+379	1376.3	25.76	12.21
+387	1360.88	26.66	12.71
+389	1357.02	15.47	6.5
+391	1353.17	14.83	6.14
+397	1341.6	27.73	13.3

@@ -1,0 +1,110 @@
+BASIN NO. 254: LONGSWAMP, PENNSYLVANIA, U.S.A.           BMN=  6171
+                   LAT :  40.48 DEGREES
+                   LONG: -75.67 DEGREES
+       SOURCES: 1> WATTS,1979< 2> BENDER ET AL,1977                                                                     
+                                                                                                                        
+                                                                                                                        
+                                                                                                                        
+ TIME LAKE TREND NO. YR BP PLUS  MIN REF  LAB NO.         MATERIAL DATED AND COMMENTS
+     LEVEL      DATES
+   1
++      MED         0
+   2
++       NO DATA    0
+   3
++       NO DATA    0
+   4
++       NO DATA    0
+   5
++       NO DATA    0
+   6
++       NO DATA    0
+   7
++       NO DATA    0
+   8
++       NO DATA    0
+   9
++       NO DATA    0
+  10
++      LOW         0
+  11
++     HIGH         1
++           STAB
+                      9750  100  100  2  WIS-783  ORG. LAKE SILT, 0.70-0.77M                                       
+  12
++     HIGH         0
++           STAB
+  13
++     HIGH         4
++           STAB
+                     12060  120  120  2  WIS-782  ORG. LAKE SILT, 1.50-1.55M                                       
+                     12095  110  110  2  WIS-807  IN BANDED SILTS; STRATIG. INCONSIST., QUERY POSS. ATY            
+                     12200  110  110  2  WIS-805  IN BANDED SILTS; STRATIG. INCONSIST.                             
+                     12400    0    0  1  N.A.     IN BANDAD SILTS, BASAL DATE; STRATIG. INCONSIST., QUERY POSS. ATY
+  14
++     HIGH         1
+                     12540  120  120  2  WIS-780  ORG. LAKE SILT, 2.30-2.35M, STRATIG. INCONSIST., QUERY POSS. ATY 
+
+
+ BASIN NO. 255: WHITE, SOUTH CAROLINA, U.S.A.             BMN=  6145
+                   LAT :  34.16 DEGREES
+                   LONG: -80.76 DEGREES
+       SOURCES: 1> WATTS,1980a                                                                                          
+                                                                                                                        
+                                                                                                                        
+                                                                                                                        
+ TIME LAKE TREND NO. YR BP PLUS  MIN REF  LAB NO.         MATERIAL DATED AND COMMENTS
+     LEVEL      DATES
+   1
++      MED         0
+   2
++      LOW         0
+   3
++      LOW         0
+   4
++      LOW         0
+   5
++      LOW         0
+   6
++      LOW         0
+   7
++      LOW         0
+   8
++      LOW         0
+   9
++      LOW         0
+  10
++      LOW         0
+  11
++     HIGH         1
++           STAB
+                      9550   40   40  1   QL-1169 PEATY GYTTJA, 4.00-4.05M                                         
+  12
++     HIGH         0
++           STAB
+  13
++     HIGH         0
++           STAB
+  14
++     HIGH         1
++           STAB
+                     12810  190  190  1   QL-1170 SILTY GYTTJA, 4.35-4.40M                                         
+  15
++     HIGH         0
++           STAB
+  16
++     HIGH         0
++           STAB
+  17
++     HIGH         0
++           STAB
+  18
++     HIGH         0
++           STAB
+  19
++     HIGH         0
++           STAB
+  20
++     HIGH         1
++           STAB
+                     19110   80   80  1   QL-1171 LAKE SILTS, 5.50-5.60M    

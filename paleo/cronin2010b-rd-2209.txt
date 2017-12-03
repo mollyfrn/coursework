@@ -1,0 +1,356 @@
+﻿# Chesapeake Bay 2400 Year Isotope-Mg/Ca Data and Temperature Estimates 
+#----------------------------------------------------------------------- 
+#                World Data Service for Paleoclimatology, Boulder 
+#                                  and 
+#                     NOAA Paleoclimatology Program 
+#             National Centers for Environmental Information (NCEI)
+#----------------------------------------------------------------------- 
+# Template Version 2.0
+# NOTE: Please cite Publication, and Online_Resource and date accessed when using these data. 
+# If there is no publication information, please cite Investigators, Title, and Online_Resource and date accessed. 
+#
+# Online_Resource: https://www.ncdc.noaa.gov/paleo/study/21530 
+# Online_Resource: http://www1.ncdc.noaa.gov/pub/data/paleo/contributions_by_author/cronin2010b/cronin2010b-rd-2209.txt
+#
+# Original_Source_URL: 
+# 
+# Description/Documentation lines begin with #
+# Data lines have no #
+#
+# Archive: Paleoceanography
+#
+# Parameter_Keywords: geochemistry, carbon isotopes, oxygen isotopes, climate reconstruction
+#--------------------
+# Contribution_Date
+#	Date: 2017-02-24
+#--------------------
+# Title
+#	Study_Name: Chesapeake Bay 2400 Year Isotope-Mg/Ca Data and Temperature Estimates 
+#--------------------
+# Investigators
+# 	Investigators: Cronin, T.M.; Hayo, K.; Thunell, R.C.; Dwyer, G.S.; Saenger, C.; Willard, D.A.
+#--------------------
+# Description_and_Notes
+#	Description: Benthic foraminifer stable isotope (d18O and d13C) and Mg/Ca data, plus Bay temperature and salinity 
+#	estimates for the past 2,400 years.  
+#--------------------
+# Publication 
+#	Authors: T.M. Cronin, K. Hayo, R.C. Thunell, G.S. Dwyer, C. Saenger, D.A. Willard
+#	Published_Date_or_Year: 2010-11-10
+#	Published_Title: The Medieval Climate Anomaly and Little Ice Age in Chesapeake Bay and the North Atlantic Ocean
+#	Journal_Name: Palaeogeography, Palaeoecology, Palaeoclimatology 
+#	Volume: 297
+#	Edition: 
+#	Issue: 2
+#	Pages: 299-310
+#	Report_Number: 
+#	DOI: 10.1016/j.palaeo.2010.08.009
+#	Online_Resource: http://www.sciencedirect.com/science/article/pii/S0031018210005031
+#	Full_Citation: 
+#	Abstract: A new 2400-year paleoclimate reconstruction from Chesapeake Bay (CB) (eastern US) was compared to other paleoclimate records in the North Atlantic region to evaluate climate variability during the Medieval Climate Anomaly (MCA) and Little Ice Age (LIA). Using Mg/Ca ratios from ostracodes and oxygen isotopes from benthic foraminifera as proxies for temperature and precipitation-driven estuarine hydrography, results show that warmest temperatures in CB reached 16-17C between 600 and 950 CE (Common Era), centuries before the classic European Medieval Warm Period (950-1100 CE) and peak warming in the Nordic Seas (1000-1400 CE). A series of centennial warm/cool cycles began about 1000 CE with temperature minima of ~8 to 9C about 1150, 1350, and 1650-1800 CE, and intervening warm periods (14-15C) centered at 1200, 1400, 1500 and 1600 CE. Precipitation variability in the eastern US included multiple dry intervals from 600 to 1200 CE, which contrasts with wet medieval conditions in the Caribbean. The eastern US experienced a wet LIA between 1650 and 1800 CE when the Caribbean was relatively dry. Comparison of the CB record with other records shows that the MCA and LIA were characterized by regionally asynchronous warming and complex spatial patterns of precipitation, possibly related to ocean-atmosphere processes.
+#------------------
+# Funding_Agency 
+#	Funding_Agency_Name: US Geological Survey
+#	Grant: Global Change Program
+#------------------
+# Site_Information 
+#	Site_Name: RD-2209
+#	Location: Ocean>Atlantic Ocean>North Atlantic Ocean
+#	Country: United States of America
+#	Northernmost_Latitude: 38.8863
+#	Southernmost_Latitude: 38.8863
+#	Easternmost_Longitude: -76.3947
+#	Westernmost_Longitude: -76.3947
+#	Elevation: -25 m  
+#------------------
+# Data_Collection   
+#	Collection_Name: Cronin2010bRD-2209
+#	Earliest_Year: -183
+#	Most_Recent_Year: 1995
+#	Time_Unit: AD
+#	Core_Length: m
+#	Notes: 
+#------------------
+# Chronology_Information
+#	Chronology: 
+# 
+# 	
+#----------------
+# Variables 
+#
+# Data variables follow are preceded by "##" in columns one and two.
+# Data line variables format:  Variables list, one per line, shortname-tab-longname-tab-longname components (9 components: what, material, error, units, seasonality, archive, detail, method, C or N for Character or Numeric data) 
+#
+## depth_cm	depth, , , cm, , , , ,N
+## age_AD	age, , , AD, , , , ,N
+## Mg/Ca	Magnesium/Calcium ratio, Elphidium selseyense, , mmol/mol, , paleoceanography, , ,N 
+## temp	temperature, , , degrees C, , climate reconstructions, Estimated Bay Temp , ,N
+## temp-sm	temperature, , , degrees C, , climate reconstructions, Estimated Bay Temp 5PtSmooth, ,N
+#
+#----------------
+# Data:
+# Data lines follow (have no #)
+# Data line format - tab-delimited text, variable short name as header
+# Missing Values:  
+#
+depth_cm	age_AD	Mg/Ca	temp	temp-sm
+9	1995.88	23.18	12.5	
+11	1994.9	18.55	9.52	
+17	1991.95	24.23	13.18	11.53
+19	1990.96	22.12	11.82	11.61
+21	1989.98	20.25	10.61	11.65
+23	1988.99	23.82	12.91	11.15
+25	1988.01	18.88	9.73	11.48
+27	1987.03	20.33	10.67	12.37
+33	1984.07	27.16	15.06	14.84
+37	1982.11	22.86	12.29	11.65
+39	1981.12	25.4	13.93	10.55
+41	1980.14	24.69	13.47	14.18
+43	1979.15	27.91	15.54	16.31
+45	1978.17	26.4	14.57	14.88
+47	1977.19	26.67	14.75	12.80
+49	1976.2	26.82	14.85	12.76
+53	1974.23	26.13	14.4	12.39
+55	1973.25	28.09	15.66	11.52
+59	1971.28	20.03	10.47	13.06
+61	1970.3	23.09	12.44	11.78
+65	1968.33	26.69	14.76	11.47
+69	1966.36	25.24	13.83	12.24
+71	1965.38	24.18	13.14	12.91
+73	1964.39	25.06	13.71	14.15
+75	1963.41	28.49	15.92	13.05
+77	1962.43	24.24	13.18	11.77
+79	1961.44	24.09	13.09	11.85
+81	1960.46	22.75	12.22	13.59
+83	1959.47	25.47	13.98	14.67
+85	1958.49	31.17	17.64	15.05
+87	1957.51	22.52	12.08	14.75
+89	1956.52	26.06	14.35	14.93
+91	1955.54	24.68	13.46	15.15
+93	1954.55	24.24	13.18	15.70
+95	1953.57	29.8	16.76	17.20
+97	1952.59	27.66	15.38	16.49
+101	1950.62	22.43	12.02	14.32
+103	1949.63	26.22	14.46	12.30
+107	1947.67	20.7	10.9	12.55
+109	1946.68	22.19	11.86	12.26
+111	1945.7	23.95	13	14.58
+112	1945.21	25.09	13.73	16.03
+113	1944.71	33.53	19.17	15.78
+117	1942.75	25.37	13.91	15.57
+121	1940.78	18.5	9.48	16.36
+123	1939.79	28.93	16.2	14.69
+125	1938.81	20.47	10.75	14.72
+127	1937.83	25.84	14.21	13.80
+129	1936.84	23.91	12.97	13.64
+131	1935.86	19.29	9.99	14.45
+133	1934.87	24.9	13.61	13.81
+135	1933.89	25.44	13.95	11.87
+137	1932.91	18.97	9.79	12.19
+139	1931.92	22.43	12.02	11.57
+141	1930.94	21.74	11.57	12.28
+145	1928.97	20.09	10.51	13.23
+159	1922.08	27.35	15.18	14.98
+161	1921.1	21.22	11.23	14.96
+163	1920.11	27.19	15.08	14.15
+165	1919.13	21.41	11.36	13.60
+167	1918.15	21.77	11.59	13.24
+169	1917.16	24.38	13.27	13.27
+173	1915.19	25.2	13.8	14.33
+175	1914.21	35.34	20.33	14.03
+177	1913.23	23.54	12.73	14.61
+179	1912.24	26.5	14.64	12.66
+191	1906.34	22.03	11.76	12.65
+195	1904.37	25.49	13.99	12.44
+203	1900.43	32.11	18.25	13.58
+205	1899.45	24.28	13.21	12.31
+207	1898.47	29.08	16.3	13.63
+209	1897.48	25.77	14.17	13.36
+211	1896.5	21.81	11.62	14.96
+215	1894.53	24.82	13.56	15.65
+219	1892.56	23.61	12.78	13.31
+221	1891.58	19.35	10.04	13.54
+225	1889.61	21.14	11.19	11.56
+227	1888.63	17.3	8.72	11.67
+229	1887.64	23.31	12.58	12.54
+231	1886.66	24.88	13.6	12.88
+233	1885.67	25.47	13.98	14.36
+235	1884.69	29.43	16.52	13.59
+237	1883.71	22.67	12.17	12.86
+247	1859.29	25.91	14.26	16.88
+259	1828.7	24.86	13.58	12.06
+263	1818.51	22.46	12.04	14.61
+265	1813.41	26.22	14.46	12.43
+267	1808.31	22.33	11.95	14.66
+269	1803.21	22.42	12.01	13.33
+271	1798.11	23.3	12.58	13.18
+273	1793.02	25.83	14.2	11.65
+275	1787.92	24.24	13.18	12.68
+277	1782.82	20.44	10.74	12.20
+279	1777.72	26.51	14.65	12.30
+281	1772.62	16.86	8.43	11.98
+283	1767.53	23.91	12.97	14.09
+285	1762.43	18.73	9.63	11.33
+287	1757.33	19.18	9.92	11.20
+291	1747.13	21.13	11.18	8.93
+293	1742.04	20.61	10.85	8.87
+295	1736.94	16.91	8.46	9.09
+297	1731.84	20.5	10.77	9.92
+301	1721.64	22.82	12.27	11.72
+303	1716.55	26.7	14.77	11.08
+305	1711.45	24.16	13.13	10.07
+307	1706.35	19.75	10.29	11.87
+309	1701.25	21.88	11.66	12.78
+310	1698.7	24.16	13.13	11.80
+428	1341.69	21.64	11.51	10.38
+430	1333.49	22.66	12.16	11.70
+432	1325.29	18.32	9.37	10.23
+434	1317.08	22.39	11.99	11.31
+436	1308.88	24.02	13.04	12.22
+438	1300.68	19.33	10.02	12.30
+442	1284.28	16.18	7.99	10.41
+444	1276.07	21.19	11.22	10.38
+446	1267.87	23.59	12.77	11.19
+448	1259.67	24.7	13.48	12.51
+450	1251.47	24.09	13.09	11.97
+452	1243.27	27.23	15.11	12.49
+454	1235.06	21.53	11.44	10.18
+458	1218.66	24.08	13.08	12.54
+460	1210.46	24.49	13.34	13.11
+462	1202.26	19.69	10.25	13.58
+464	1194.05	17.64	8.93	13.76
+466	1185.85	17.73	8.99	12.40
+468	1177.65	20.4	10.71	11.80
+470	1169.45	19.63	10.21	11.47
+474	1153.04	20.27	10.62	11.62
+476	1144.84	20.14	10.54	10.57
+478	1136.64	27.86	15.51	11.65
+480	1128.44	21.63	11.5	11.84
+482	1120.24	22.6	12.12	9.45
+484	1112.03	19.44	10.09	8.83
+486	1103.83	21.04	11.12	9.97
+488	1095.63	25.7	14.12	12.20
+490	1087.43	21.77	11.59	12.24
+492	1079.23	21.33	11.31	12.51
+494	1071.02	18.77	9.66	12.46
+496	1062.82	22.56	12.1	13.41
+498	1054.62	21.11	11.16	13.54
+500	1046.42	18.11	9.23	12.47
+502	1038.22	22	11.74	12.69
+504	1030.01	26.18	14.43	12.45
+506	1021.81	24.05	13.06	12.55
+508	1013.61	22.46	12.04	14.22
+512	997.21	27.51	15.29	14.51
+514	989	24.45	13.32	14.15
+516	980.8	21.79	11.61	13.66
+518	972.6	28.54	15.95	13.50
+520	964.4	24.53	13.37	13.18
+522	956.2	23.2	12.52	12.94
+524	947.99	23.08	12.43	12.18
+526	939.79	19.95	10.42	11.83
+532	915.19	18.52	9.5	15.26
+536	898.78	34.76	19.96	15.00
+538	890.58	20.69	10.89	17.83
+542	874.18	24.69	13.47	14.30
+544	865.97	23.93	12.99	14.11
+546	857.77	29.95	16.86	14.81
+548	849.57	27.17	15.07	13.57
+550	841.37	19.03	9.82	12.29
+552	833.17	28.6	15.99	12.56
+560	800.36	23.86	12.93	13.94
+562	792.16	26.67	14.75	13.28
+566	775.75	23.97	13.01	11.69
+568	767.55	21.87	11.65	13.77
+570	759.35	17.81	9.04	13.00
+572	751.15	21.86	11.65	12.44
+574	742.94	26.23	14.46	14.58
+576	734.74	26.2	14.44	16.54
+578	726.54	23.11	12.46	15.00
+580	718.34	29.9	16.83	14.80
+582	710.14	21.79	11.6	12.12
+584	701.93	14.45	6.88	12.95
+586	693.73	29.46	16.55	14.70
+588	685.53	26.38	14.56	14.55
+590	677.33	24.39	13.28	14.47
+592	669.13	28.85	16.15	15.22
+594	660.92	20.98	11.08	13.45
+596	652.72	23.61	12.78	13.54
+598	644.52	23.5	12.71	13.38
+600	636.32	20.53	10.79	14.87
+602	628.12	32.53	18.52	17.10
+604	619.91	20.83	10.98	13.50
+606	611.71	26.28	14.5	12.93
+608	603.51	25.41	13.94	13.52
+610	595.31	21.41	11.36	12.89
+612	587.11	26.21	14.45	12.51
+614	578.9	23.89	12.96	12.93
+616	570.7	22.89	12.32	12.36
+618	562.5	23.45	12.67	12.59
+620	554.3	26.83	14.85	13.62
+622	546.1	24.71	13.49	12.41
+624	537.89	21.15	11.19	12.83
+626	529.69	27.5	15.28	13.11
+628	521.49	24.81	13.55	14.46
+630	513.29	25.05	13.7	13.40
+632	505.09	26.61	14.71	13.46
+634	496.88	21.32	11.3	13.13
+636	488.68	27.64	15.37	13.19
+638	480.48	22.42	12.01	12.71
+640	472.28	23.29	12.57	12.89
+642	464.08	24.46	13.32	12.81
+644	455.87	29.64	16.66	13.04
+646	447.67	24.65	13.45	13.04
+648	439.47	26.07	14.36	12.92
+650	431.27	28.71	16.06	13.59
+652	423.07	24.87	13.59	12.55
+654	414.86	23.6	12.77	12.81
+656	406.66	18.01	9.17	12.67
+672	341.05	26.71	14.77	13.10
+682	300.04	19.91	10.39	12.31
+684	291.83	23.44	12.67	12.87
+688	275.43	24.27	13.2	13.94
+696	242.62	21.88	11.66	13.48
+700	226.22	25.26	13.84	12.46
+702	218.02	18.29	9.35	13.87
+708	193.41	19.09	9.87	12.93
+710	185.21	32.82	18.71	12.52
+712	177.01	23.81	12.9	13.27
+714	168.8	24.13	13.11	13.19
+720	144.2	25.25	13.83	13.00
+722	136	20.75	10.93	12.34
+724	127.79	19.98	10.44	11.92
+726	119.59	24.62	13.42	13.73
+728	111.39	34.46	19.76	13.45
+730	103.19	23.72	12.84	14.03
+732	94.99	25.27	13.84	12.85
+734	86.78	25.88	14.24	11.73
+736	78.58	19.94	10.41	12.22
+738	70.38	20.3	10.64	12.12
+740	62.18	26.88	14.88	11.30
+746	37.57	19.45	10.1	12.38
+748	29.37	26.35	14.54	11.69
+750	21.17	21.52	11.43	12.13
+752	12.97	21.62	11.49	11.45
+754	4.76	21.3	11.29	11.46
+756	-3.44	21.09	11.15	12.09
+758	-11.64	26.45	14.61	12.98
+760	-19.84	26.99	14.95	13.81
+762	-28.04	22.79	12.25	13.77
+766	-44.45	27.57	15.33	13.61
+768	-52.65	25.22	13.81	13.97
+770	-60.85	28.26	15.77	13.25
+772	-69.05	22.54	12.08	11.81
+774	-77.26	22.09	11.8	12.45
+776	-85.46	26.72	14.78	12.82
+778	-93.66	22.78	12.24	12.77
+780	-101.86	24.64	13.44	12.06
+782	-110.06	21.73	11.56	12.49
+784	-118.27	16.6	8.26	12.19
+786	-126.47	20.47	10.75	11.67
+788	-134.67	19.92	10.4	11.04
+790	-142.87	17.83	9.05	11.32
+792	-151.07	23.96	13	10.64
+794	-159.28	22.26	11.91	10.93
+796	-167.48	18.13	9.25	10.73
+798	-175.68	21.04	11.12	11.66
+800	-183.88	20.61	10.84	12.32
