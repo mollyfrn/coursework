@@ -41,9 +41,6 @@ library(coda)     #mcmc's and Bayesian stats for nonlinear analysis
 # Data:
 # Data lines follow (have no #)
 # Data line format - tab-delimited text, variable short name as header
-chesap = read.delim("cronin2010b-composite.txt", skip = 96, fill = TRUE, header = TRUE)
-#core derived temp data using isotope ratio of Mg to Ca 
-
 sealev = read.csv("miller_sealev.csv", header = TRUE)
 sealev = sealev[, 1:2]
 colnames(sealev) <- c("Age(ma)", "sealevel(m)")
@@ -88,10 +85,35 @@ temps2[temps2 == -99.99] <- NA
 
 #write.csv(temps2, "tidytemps.csv", row.names = FALSE)
 
-temps = read.csv("tidytemps.csv", header = TRUE, na.rm = TRUE)
+temps = read.csv("tidytemps.csv", header = TRUE)
 
-#replace -99.99 with "NA" 
+#remove NA rows 
+temp2 = na.omit(temps)
+#pinpoint global avg at lgm 
 
+lgmmean = mean(temp2[,3])
 
+##############
+chesap = read.delim("cronin2010b-composite.txt", skip = 96, fill = TRUE, header = TRUE)
+#core derived temp data using isotope ratio of Mg to Ca 
+monthly = read.csv("monthly_csv.csv", header = TRUE)
+nhemi = read.table("nhemi.txt", skip = 1, nrows = 144, header = TRUE, fill = TRUE )
+nhemi2 = nhemi %>% dplyr::select(Year, J.D) %>% 
+  filter(Year != "Year" & J.D != "J-D")
 
+chesap <- data.frame(chesap)  # convert to dataframe
+p1 = ggplot(chesap) + geom_line(aes(x=age_AD, y=temp, color="temp")) +
+  geom_line(aes(x=age_AD, y=Mg.Ca, col="Isotopic ratio")) + scale_color_discrete(name="Legend") +
+  labs(title="Cronin Chesapeake Isotopic Temperature Patterns") # plot multiple time series using 'geom_line's
+p1
+
+#add ref point for temp @ lgm using temp2 data
+p1+geom_abline(slope = 0, intercept = lgmmean)
+
+nhemi2 <- data.frame(nhemi2)
+p2 = ggplot(nhemi2)+ geom_line(aes(x = Year, y = J.D, color = "N. Hemisphere averages"))+scale_color_discrete(name = "Legend") +
+  labs(title = "Northern hemisphere reconstructed averages")
+p2
+
+#add in global data for comp 
 
