@@ -84,5 +84,14 @@ temps2 = temps %>%
   dplyr::select(-4, -5, -7, -8, -10, -11, -16, -17, 
                 -19, -20, -22, -23, -25, -26, -28, -29)
 
-write.csv(temps2, "tidytemps.csv", row.names = FALSE)
+temps2[temps2 == -99.99] <- NA
+
+#write.csv(temps2, "tidytemps.csv", row.names = FALSE)
+
+temps = read.csv("tidytemps.csv", header = TRUE, na.rm = TRUE)
+
+#replace -99.99 with "NA" 
+
+
+
 
