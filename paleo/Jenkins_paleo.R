@@ -42,15 +42,47 @@ library(coda)     #mcmc's and Bayesian stats for nonlinear analysis
 # Data lines follow (have no #)
 # Data line format - tab-delimited text, variable short name as header
 chesap = read.delim("cronin2010b-composite.txt", skip = 96, fill = TRUE, header = TRUE)
-chesap2 = read.delim("cronin2010b-md03-2661.txt", skip = 79, nrows = 25, fill = TRUE, header = TRUE)
-chesap2b = read.delim("cronin2010b-md03-2661.txt", skip = 133, fill = TRUE, header = TRUE)
-chesap3 = read.delim("cronin2010b-ptmc-3.txt", skip = 94, fill = TRUE, header = TRUE)
-chesap4 = read.delim("cronin2010b-ptxt-2.txt", skip = 94, fill = TRUE, header = TRUE)
-chesap5 = read.delim("cronin2010b-rd-2209.txt", skip = 95, fill = TRUE, header = TRUE)
+#core derived temp data using isotope ratio of Mg to Ca 
 
+sealev = read.csv("miller_sealev.csv", header = TRUE)
+sealev = sealev[, 1:2]
+colnames(sealev) <- c("Age(ma)", "sealevel(m)")
+#derived sea level data at global 
 
-####Tree ring data####
+#derived temp data at global 
+temps = read.csv("LGM_temps.csv", skip = 35, header = FALSE) 
+colnames(temps) <- c("Longitude", "Latitude", 
+                     "WOA (1998) 10-m temperature (annual, deg C)",
+                     "WOA (1998) 10-m temperature (JAS, deg C)",
+                     "WOA (1998) 10-m temperature (JFM, deg C)",
+                     "Reconstructed LGM SST (annual, deg C)",
+                     "Reconstructed LGM SST (JAS, deg C)",
+                     "Reconstructed LGM SST (JFM, deg C)",
+                     "LGM anomaly (annual, deg C)",
+                     "LGM anomaly (JAS, deg C)",
+                     "LGM anomaly (JFM, deg C)",
+                     "Normalized average reliability level (0-1)",
+                     "Number of records", 
+                     "Number of different proxies",
+                     "LGM anomaly, propagated error (annual, deg C)",
+                     "LGM anomaly, propagated error (JAS, deg C)",
+                     "LGM anomaly, propagated error (JFM, deg C)",
+                     "LGM anomaly, standard deviation (annual, deg C)",
+                     "LGM anomaly, standard deviation (JAS, deg C)",
+                     "LGM anomaly, standard deviation (JFM, deg C)",
+                     "LGM anomaly, total error (annual, deg C)",
+                     "LGM anomaly, total error (JAS, deg C)",
+                     "LGM anomaly, total error (JFM, deg C)",
+                     "LGM anomaly, minimum (annual, deg C)",
+                     "LGM anomaly, minimum (JAS, deg C)",
+                     "LGM anomaly, minimum (JFM, deg C)",
+                     "LGM anomaly, maximum (annual, deg C)", 
+                     "LGM anomaly, maximum (JAS, deg C)",
+                     "LGM anomaly, maximum (JFM, deg C)")
 
+temps2 = temps %>% 
+  dplyr::select(-4, -5, -7, -8, -10, -11, -16, -17, 
+                -19, -20, -22, -23, -25, -26, -28, -29)
 
+write.csv(temps2, "tidytemps.csv", row.names = FALSE)
 
-####Lake level data####
