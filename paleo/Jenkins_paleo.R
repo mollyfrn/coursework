@@ -97,9 +97,10 @@ lgmmean = mean(temp2[,3])
 chesap = read.delim("cronin2010b-composite.txt", skip = 96, fill = TRUE, header = TRUE)
 #core derived temp data using isotope ratio of Mg to Ca 
 monthly = read.csv("monthly_csv.csv", header = TRUE)
-nhemi = read.table("nhemi.txt", skip = 1, nrows = 144, header = TRUE, fill = TRUE )
+nhemi = read.table("nhemi.txt", skip = 1, nrows = 143, header = TRUE, fill = TRUE )
 nhemi2 = nhemi %>% dplyr::select(Year, J.D) %>% 
   filter(Year != "Year" & J.D != "J-D")
+nhemi2$J.D = as.integer(as.character(nhemi2$J.D))
 
 chesap <- data.frame(chesap)  # convert to dataframe
 p1 = ggplot(chesap) + geom_line(aes(x=age_AD, y=temp, color="temp")) +
@@ -111,9 +112,10 @@ p1
 p1+geom_abline(slope = 0, intercept = lgmmean)
 
 nhemi2 <- data.frame(nhemi2)
-p2 = ggplot(nhemi2)+ geom_line(aes(x = Year, y = J.D, color = "N. Hemisphere averages"))+scale_color_discrete(name = "Legend") +
+p2 = ggplot(nhemi2)+geom_point(aes(x = Year, y = J.D))+
   labs(title = "Northern hemisphere reconstructed averages")
 p2
 
+p1 
 #add in global data for comp 
 
