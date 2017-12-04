@@ -101,6 +101,7 @@ nhemi = read.table("nhemi.txt", skip = 1, nrows = 143, header = TRUE, fill = TRU
 nhemi2 = nhemi %>% dplyr::select(Year, J.D) %>% 
   filter(Year != "Year" & J.D != "J-D")
 nhemi2$J.D = as.integer(as.character(nhemi2$J.D))
+nhemi2$Year
 
 chesap <- data.frame(chesap)  # convert to dataframe
 p1 = ggplot(chesap) + geom_line(aes(x=age_AD, y=temp, color="temp")) +
@@ -109,13 +110,32 @@ p1 = ggplot(chesap) + geom_line(aes(x=age_AD, y=temp, color="temp")) +
 p1
 
 #add ref point for temp @ lgm using temp2 data
-p1+geom_abline(slope = 0, intercept = lgmmean)
+p1+geom_abline(slope = 0, intercept = lgmmean)+
+  annotate("text", x = 0, y = 21, label = "Average Global Annual Temp at Last LGM (GISTEMP)")
 
 nhemi2 <- data.frame(nhemi2)
+nhemi2$Year = as.numeric(nhemi2$Year)
 p2 = ggplot(nhemi2)+geom_point(aes(x = Year, y = J.D))+
   labs(title = "Northern hemisphere reconstructed averages")
-p2
 
-p1 
+
+#cut data to just 1800's+, merge, and overlay
+chesa_cut = chesap %>% 
+  filter(age_AD > 1880) %>% 
+  mutate(age_AD = as.factor(round(age_AD))) %>% 
+  left_join(nhemi2, by = c("age_AD" = "Year"))
+
+p3 = ggplot(chesa_cut)+geom_point(aes(x = age_AD, y = temp, color = "Local temp estimates"))+
+  geom_point(aes(x=age_AD, y = J.D, color = "Northern Hemisphere temp estimates"))
+p3 + scale_color_discrete(name="Legend") +
+  labs(title="Compared Local & Regional Estimates")
 #add in global data for comp 
+
+
+####Analysis####
+#using overlapping 1800's data try to back-extrapolate predicted data 
+#from local using an MCMC to generate predicted vals?
+
+#see how close it mirrors actual blue temp line from chesap dataset 
+
 
